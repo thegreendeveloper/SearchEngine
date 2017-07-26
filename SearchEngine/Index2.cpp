@@ -8,8 +8,6 @@
 Index2::Index2(string filename)
 {
 	string word, dt = "";
-	//WikiItem * current, *tmp;
-	//WikiItem2 * current;
 	FILE * file = NULL;
 
 	try
@@ -45,14 +43,7 @@ Index2::Index2(string filename)
 	catch (const std::exception&)
 	{
 		cout << "Error reading file " + filename;
-	}
-
-	/*WikiItem2 * current = start;
-	while (current->next != NULL)
-	{
-		cout << current->str << "\n";
-		current = current->next;
-	}*/
+	}	
 
 }
 
