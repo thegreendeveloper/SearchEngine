@@ -4,27 +4,6 @@
 #include "WikiItem.h"
 using namespace std;
 
-void test(string filename) {
-	FILE * file = NULL;
-	char buf[1024];
-	int counter = 0;
-	
-	WikiItem start("", "", 0);
-	if (fopen_s(&file, filename.c_str(), "r") == 0) {
-		while (fscanf_s(file, "%s", buf, sizeof(buf)) != EOF)
-		{
-			counter++;
-			WikiItem tmp("", "", 0);
-			start.next = &tmp;
-		}
-	}
-	cout << counter << "\n";
-
-	
-	int j;
-	cin >> j;
-}
-
 
 int main(int argc, char* argv[]) {
 	cout << argv[1] << "\n";
