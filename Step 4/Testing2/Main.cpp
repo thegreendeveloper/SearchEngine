@@ -11,7 +11,6 @@ int main(int argc, char* argv[]) {
 	clock_t start = clock();
 	string filename = argv[1], word, dt;
 
-	//HashMap map(65536);
 	HashMap map(8);
 
 	FILE * file = NULL;
