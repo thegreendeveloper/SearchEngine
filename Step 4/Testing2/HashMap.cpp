@@ -2,6 +2,8 @@
 #include "HashFunctions.h"
 
 HashMap::HashMap(int tbSz) {
+	if (tbSz == 0)
+		tbSz = DEFAULT_TABLE_SIZE;
 	initialize(tbSz);
 }
 

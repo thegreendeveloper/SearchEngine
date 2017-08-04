@@ -5,13 +5,15 @@
 
 using namespace std;
 
+const int DEFAULT_TABLE_SIZE = 128;
+const double DENSITY_THRESHOLD = 0.75;
+
 class HashMap
 {
 private:
 	HashEntry **table;
 	int tableSize = 0;
-	double DENSITY_THRESHOLD = 0.75;
-	int MAX_ENTRIES = 0;
+	int MAX_ENTRIES = 0;	
 
 	void initialize(int tbSz);
 	void handleCollision(HashEntry * tablePointer, string key, string dt);

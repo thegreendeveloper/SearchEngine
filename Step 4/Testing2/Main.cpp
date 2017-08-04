@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
 	clock_t start = clock();
 	string filename = argv[1], word, dt;
 
-	HashMap map(8);
+	HashMap map(0);
 
 	FILE * file = NULL;
 	char buf[1024];
@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
 
 		HashEntry * result = map.get(searchstring);
 		if (result != NULL) {
-			cout << searchstring << " exists!\n";
+			cout << searchstring << " exists in the documents: " << endl;
 			ValueEntry * current = result->getValueEntry();
 			while (current != NULL)
 			{
