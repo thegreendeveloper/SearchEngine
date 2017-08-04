@@ -5,7 +5,7 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LocalDebuggerCommandArguments>C:\Users\tjoe\Documents\GitHub\SearchEngine\DataFiles\test.txt</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>C:\Users\tjoe\Documents\GitHub\SearchEngine\DataFiles\WestburyLab.wikicorp.201004_2MB.txt</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>

@@ -1,14 +1,14 @@
-#include "HashMap.h"
+#include "HashMapHE.h"
 #include "HashFunctions.h"
 
-HashMap::HashMap(int tbSz) {
+HashMapHE::HashMapHE(int tbSz) {
 	if (tbSz == 0)
 		tbSz = DEFAULT_TABLE_SIZE;
 	initialize(tbSz);
 }
 
 
-HashEntry * HashMap::get(string key) {
+HashEntry * HashMapHE::get(string key) {
 	size_t hashKey = hash<string>()(key);
 	int hash = hashKey  % tableSize;
 
@@ -31,7 +31,7 @@ HashEntry * HashMap::get(string key) {
 
 
 
-void HashMap::put(string key, string dt) {
+void HashMapHE::put(string key, string dt) {
 	size_t hashKey = hash<string>()(key);
 	//unsigned int hashKey = HashFunctions::RSHash(key.c_str(), key.length());
 	//unsigned int hashKey = HashFunctions::JSHash(key.c_str(), key.length());
@@ -57,14 +57,14 @@ void HashMap::put(string key, string dt) {
 		NO_OF_ENTRIES++;
 	}
 
-	/*TODO : If the number of entries have exceeded our density limit, we rehash.*/
+	/*If the number of entries have exceeded our density limit, we rehash.*/
 	if ((tableSize - NO_OF_ENTRIES) <= DENSITY_THRESHOLD) {
 		cout << "Rehashing ....... " << endl;
 		reHashMap();		
 	}
 }
 
-void HashMap::handleCollision(HashEntry * current, string key, string dt) {
+void HashMapHE::handleCollision(HashEntry * current, string key, string dt) {
 	bool keyExist = false;
 	int numberOfCol = 0;
 	/*walk down the collision chain, compare, if value does not exist then create.*/
@@ -93,13 +93,13 @@ void HashMap::handleCollision(HashEntry * current, string key, string dt) {
 	/*TODO : If HIGHEST_NO_OF_COLLISIONS is bigger than MAX_NO_OF_COLLISIONS, then expand hashtable and rehash everything*/
 }
 
-void HashMap::insertValueEntry(ValueEntry * initial, string dt) {
+void HashMapHE::insertValueEntry(ValueEntry * initial, string dt) {
 	ValueEntry * current = initial;
 	bool documentExist = false;
 
 	while (current != NULL) {
 
-		if (current->getDocumentName()._Equal(dt)) {
+		if (current->getKey()._Equal(dt)) {
 			documentExist = true;
 			break;
 		}
@@ -118,21 +118,21 @@ void HashMap::insertValueEntry(ValueEntry * initial, string dt) {
 
 }
 
-void HashMap::InsertReHashValueEntries(string key, ValueEntry * initial, HashMap * newT) {
+void HashMapHE::InsertReHashValueEntries(string key, ValueEntry * initial, HashMapHE * newT) {
 	ValueEntry * current = initial;
 	while (current != NULL) {
-		newT->put(key, current->getDocumentName());
+		newT->put(key, current->getKey());
 		if (current->getNext() == NULL)
 			break;
 		current = current->getNext();
 	}	
 }
 
-void HashMap::reHashMap() {
+void HashMapHE::reHashMap() {
 
 	/*Expanding the old table size by 2*/
 	int newTableSize = 2 * tableSize;
-	HashMap * newT = new HashMap(newTableSize);
+	HashMapHE * newT = new HashMapHE(newTableSize);
 
 	for (int i = 0; i < tableSize; i++) {
 		if (table[i] != NULL) {
@@ -163,11 +163,11 @@ void HashMap::reHashMap() {
 	MAX_NO_OF_COLLISIONS = newT->MAX_NO_OF_COLLISIONS;
 }
 
-int HashMap::getTableSize() {
+int HashMapHE::getTableSize() {
 	return tableSize;
 }
 
-void HashMap::initialize(int tbSz) {
+void HashMapHE::initialize(int tbSz) {
 	table = new HashEntry*[tbSz];
 	for (int i = 0; i < tbSz; i++) {
 		table[i] = NULL;
@@ -177,7 +177,7 @@ void HashMap::initialize(int tbSz) {
 	MAX_NO_OF_COLLISIONS = 0;
 }
 
-void HashMap::print() {
+void HashMapHE::print() {
 	for (int i = 0; i < tableSize; i++) {
 		if (table[i] != NULL) {
 			cout << table[i]->getKey() << endl;
@@ -188,12 +188,12 @@ void HashMap::print() {
 	}
 }
 
-HashEntry ** HashMap::getTable() {
+HashEntry ** HashMapHE::getTable() {
 	return table;
 }
-HashMap::~HashMap() {
+HashMapHE::~HashMapHE() {
 	if (tableSize == 0)
-		exit;
+		return;
 
 	for (int i = 0; i < tableSize; i++) {
 		if (table[i] != NULL) {

@@ -3,7 +3,7 @@
 
 ValueEntry::ValueEntry(string nm, ValueEntry * nxt)
 {
-	documentName = nm;
+	key = nm;
 	next = nxt;
 }
 
@@ -11,8 +11,8 @@ ValueEntry * ValueEntry::getNext() {
 	return next;
 }
 
-string ValueEntry::getDocumentName() {
-	return documentName;
+string ValueEntry::getKey() {
+	return key;
 }
 
 void ValueEntry::setNext(ValueEntry * next) {

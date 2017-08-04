@@ -112,17 +112,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="HashMapVE.cpp" />
     <ClCompile Include="ValueEntry.cpp" />
     <ClCompile Include="HashEntry.cpp" />
     <ClCompile Include="HashFunctions.cpp" />
-    <ClCompile Include="HashMap.cpp" />
+    <ClCompile Include="HashMapHE.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="HashMapAbs.h" />
+    <ClInclude Include="HashMapVE.h" />
     <ClInclude Include="ValueEntry.h" />
     <ClInclude Include="HashEntry.h" />
     <ClInclude Include="HashFunctions.h" />
-    <ClInclude Include="HashMap.h" />
+    <ClInclude Include="HashMapHE.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

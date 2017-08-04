@@ -8,15 +8,15 @@ using namespace std;
 class ValueEntry
 {
 public:
-	ValueEntry(string nm, ValueEntry * nxt);
+	ValueEntry(string key, ValueEntry * nxt);
 	~ValueEntry();
 
 	ValueEntry * getNext();
-	string getDocumentName();
+	string getKey();
 
 	void setNext(ValueEntry * next);
 private:
-	string documentName;
+	string key;
 	ValueEntry * next;
 };
 #endif

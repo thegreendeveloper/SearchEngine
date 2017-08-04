@@ -2,7 +2,8 @@
 #include <iostream>
 
 #include "HashEntry.h"
-#include "HashMap.h"
+#include "HashMapHE.h"
+#include "HashMapVE.h"
 
 using namespace std;
 
@@ -11,8 +12,8 @@ int main(int argc, char* argv[]) {
 	clock_t start = clock();
 	string filename = argv[1], word, dt;
 
-	HashMap map(0);
-
+	HashMapHE map(0);
+	//HashMapVE map(0);
 	FILE * file = NULL;
 	char buf[1024];
 	
@@ -27,6 +28,7 @@ int main(int argc, char* argv[]) {
 				continue;
 			}
 			map.put(word, dt);
+			//map.put(word);
 		}
 	}	
 
@@ -44,18 +46,32 @@ int main(int argc, char* argv[]) {
 		if (searchstring == "exit")
 			break;
 
+		/*FOR HashMapHE*/
 		HashEntry * result = map.get(searchstring);
 		if (result != NULL) {
 			cout << searchstring << " exists in the documents: " << endl;
 			ValueEntry * current = result->getValueEntry();
 			while (current != NULL)
 			{
-				cout << current->getDocumentName() << endl;
+				cout << current->getKey() << endl;
 				if (current->getNext() == NULL)
 					break;
 				current = current->getNext();
 			}
 		}
+		/*FOR HashMapVE*/
+		/*ValueEntry * result = map.get(searchstring);
+		if (result != NULL) {
+			cout << searchstring << " exists in the documents: " << endl;
+			ValueEntry * current = result;
+			while (current != NULL)
+			{
+				cout << current->getKey() << endl;
+				if (current->getNext() == NULL)
+					break;
+				current = current->getNext();
+			}
+		}*/
 		else
 			cout << searchstring << " does not exist!\n";
 

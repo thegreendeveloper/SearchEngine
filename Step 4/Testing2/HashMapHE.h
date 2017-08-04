@@ -2,13 +2,11 @@
 #include "ValueEntry.h"
 #include <string>
 #include <iostream>
+#include "HashMapAbs.h"
 
 using namespace std;
 
-const int DEFAULT_TABLE_SIZE = 128;
-const double DENSITY_THRESHOLD = 0.75;
-
-class HashMap
+class HashMapHE : public HashMapAbs
 {
 private:
 	HashEntry **table;
@@ -19,11 +17,11 @@ private:
 	void handleCollision(HashEntry * tablePointer, string key, string dt);
 	void insertValueEntry(ValueEntry * initial, string dt);	
 	void reHashMap();
-	void InsertReHashValueEntries(string key, ValueEntry * initial, HashMap * newT);
+	void InsertReHashValueEntries(string key, ValueEntry * initial, HashMapHE * newT);
 	
 
 public:
-	HashMap(int tbSz);
+	HashMapHE(int tbSz);
 	
 	HashEntry **getTable();
 	HashEntry * get(string key);
@@ -32,8 +30,7 @@ public:
 	void put(string key, string dt);
 	void print();
 	
-	~HashMap();
-	
-	int MAX_NO_OF_COLLISIONS, NO_OF_ENTRIES;
+	~HashMapHE();
+		
 };
 
