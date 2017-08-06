@@ -46,7 +46,6 @@ void HashMapVE::put(string key) {
 
 	/*If the number of entries have exceeded our density limit, we rehash.*/
 	if ((tableSize - NO_OF_ENTRIES) <= DENSITY_THRESHOLD) {
-		cout << "Rehashing ....... " << endl;
 		reHashMap();
 	}
 }
@@ -130,11 +129,21 @@ void HashMapVE::print() {
 	for (int i = 0; i < tableSize; i++) {
 		if (table[i] != NULL) {
 			cout << table[i]->getKey() << endl;
-		}
-		else {
-			cout << "NULL" << endl;
-		}
+
+			if (table[i]->getNext() != NULL) {
+				ValueEntry * current = table[i]->getNext();
+				while (current != NULL) {
+					cout << current->getKey() << endl;
+				
+					if (current->getNext() == NULL)
+						break;
+
+					current = current->getNext();
+				}
+			}
+		}		
 	}
+	cout << "Table size :" << tableSize << endl;
 }
 
 ValueEntry ** HashMapVE::getTable() {

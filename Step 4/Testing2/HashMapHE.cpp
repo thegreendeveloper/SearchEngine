@@ -48,12 +48,14 @@ void HashMapHE::put(string key, string dt) {
 		}
 		else {
 			/*if theres no hashkey collision, we simply want to update the document list*/
-			insertValueEntry(table[hash]->getValueEntry(), dt);
+			//insertValueEntry(table[hash]->getValueEntry(), dt);
+			table[hash]->getValueEntries()->put(dt);
 		}
 	}
 	else {
-		ValueEntry * vt = new ValueEntry(dt, 0);
-		table[hash] = new HashEntry(key, vt, 0);
+		//ValueEntry * vt = new ValueEntry(dt, 0);
+		//table[hash] = new HashEntry(key, vt, 0);
+		table[hash] = new HashEntry(key, dt, 0);
 		NO_OF_ENTRIES++;
 	}
 
@@ -72,7 +74,8 @@ void HashMapHE::handleCollision(HashEntry * current, string key, string dt) {
 		numberOfCol++;
 		if (current->getKey()._Equal(key)) {
 			/*Insert document to the document list*/
-			insertValueEntry(current->getValueEntry(), dt);
+			//insertValueEntry(current->getValueEntry(), dt);
+			current->getValueEntries()->put(dt);			
 			keyExist = true;
 			break;
 		}
@@ -83,8 +86,8 @@ void HashMapHE::handleCollision(HashEntry * current, string key, string dt) {
 	}
 
 	if (!keyExist) {
-		ValueEntry * vt = new ValueEntry(dt, 0);
-		current->setNext(new HashEntry(key, vt, 0));
+		//ValueEntry * vt = new ValueEntry(dt, 0);
+		current->setNext(new HashEntry(key, dt, 0));
 		NO_OF_ENTRIES++;
 	}
 	if (numberOfCol >= MAX_NO_OF_COLLISIONS)
@@ -118,16 +121,15 @@ void HashMapHE::insertValueEntry(ValueEntry * initial, string dt) {
 
 }
 
-void HashMapHE::InsertReHashValueEntries(string key, ValueEntry * initial, HashMapHE * newT) {
-	ValueEntry * current = initial;
-	while (current != NULL) {
-		newT->put(key, current->getKey());
-		if (current->getNext() == NULL)
-			break;
-		current = current->getNext();
-	}	
-}
 
+void HashMapHE::InsertReHashValueEntries(HashMapHE * newT, HashMapVE * oldEntries, string key) {
+	int size = oldEntries->getTableSize();
+	for (int i = 0; i < size; i++) {
+		if (oldEntries->getTable()[i] != NULL) {
+			newT->put(key, oldEntries->getTable()[i]->getKey());		
+		}
+	}
+}
 void HashMapHE::reHashMap() {
 
 	/*Expanding the old table size by 2*/
@@ -138,12 +140,12 @@ void HashMapHE::reHashMap() {
 		if (table[i] != NULL) {
 
 			/*Inserting all value entries of the first node in the index*/
-			InsertReHashValueEntries(table[i]->getKey(), table[i]->getValueEntry(), newT);
+			InsertReHashValueEntries(newT, table[i]->getValueEntries(), table[i]->getKey());
 
 			/*Recursing and conituning in the list of collissions*/
 			HashEntry * currentH = table[i]->getNext();
 			while (currentH != NULL) {
-				InsertReHashValueEntries(currentH->getKey(), currentH->getValueEntry(), newT);
+				InsertReHashValueEntries(newT, currentH->getValueEntries(), currentH->getKey());
 
 				if (currentH->getNext() == NULL)
 					break;
@@ -152,9 +154,10 @@ void HashMapHE::reHashMap() {
 			}
 		}
 	}
-
+	
 	/*Delete the old table and point the new table created in the heap to the old table*/		
 	for (int i = 0; i < tableSize; i++) {
+		//TODO : try to delete the getValueEntries. Null pointer when reached from here? 
 		delete table[i];
 	}
 

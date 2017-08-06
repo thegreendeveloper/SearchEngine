@@ -18,17 +18,18 @@ int main(int argc, char* argv[]) {
 	char buf[1024];
 	
 	if (fopen_s(&file, filename.c_str(), "r") == 0) {
+
 		while (fscanf_s(file, "%s", buf, sizeof(buf)) != EOF)
 		{
 			word = buf;
 			if (dt == "")
+				//TODO: Read entrie line of document instead
 				dt = word;
 			if (word == "---END.OF.DOCUMENT---") {
 				dt = "";
 				continue;
 			}
-			map.put(word, dt);
-			//map.put(word);
+			map.put(word, dt);			
 		}
 	}	
 
@@ -50,28 +51,9 @@ int main(int argc, char* argv[]) {
 		HashEntry * result = map.get(searchstring);
 		if (result != NULL) {
 			cout << searchstring << " exists in the documents: " << endl;
-			ValueEntry * current = result->getValueEntry();
-			while (current != NULL)
-			{
-				cout << current->getKey() << endl;
-				if (current->getNext() == NULL)
-					break;
-				current = current->getNext();
-			}
-		}
-		/*FOR HashMapVE*/
-		/*ValueEntry * result = map.get(searchstring);
-		if (result != NULL) {
-			cout << searchstring << " exists in the documents: " << endl;
-			ValueEntry * current = result;
-			while (current != NULL)
-			{
-				cout << current->getKey() << endl;
-				if (current->getNext() == NULL)
-					break;
-				current = current->getNext();
-			}
-		}*/
+			HashMapVE * entries = result->getValueEntries();
+			entries->print();		
+		}		
 		else
 			cout << searchstring << " does not exist!\n";
 
