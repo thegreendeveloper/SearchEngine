@@ -38,7 +38,7 @@ void HashMapHE::put(string key, string dt) {
 	//unsigned int hashKey = HashFunctions::PJWHash(key.c_str(), key.length());
 	//unsigned int hashKey = HashFunctions::SDBMHash(key.c_str(), key.length());
 	//unsigned int hashKey = HashFunctions::DJBHash(key.c_str(), key.length());
-
+	
 	int hash = hashKey % tableSize;
 	if (table[hash] != NULL) {
 		if (!table[hash]->getKey()._Equal(key)) {
@@ -126,9 +126,9 @@ void HashMapHE::InsertReHashValueEntries(HashMapHE * newT, HashMapVE * oldEntrie
 	int size = oldEntries->getTableSize();
 	for (int i = 0; i < size; i++) {
 		if (oldEntries->getTable()[i] != NULL) {
-			newT->put(key, oldEntries->getTable()[i]->getKey());		
+			newT->put(key, oldEntries->getTable()[i]->getKey());					
 		}
-	}
+	}	
 }
 void HashMapHE::reHashMap() {
 
@@ -146,20 +146,18 @@ void HashMapHE::reHashMap() {
 			HashEntry * currentH = table[i]->getNext();
 			while (currentH != NULL) {
 				InsertReHashValueEntries(newT, currentH->getValueEntries(), currentH->getKey());
-
 				if (currentH->getNext() == NULL)
-					break;
-
+					break;				
 				currentH = currentH->getNext();
 			}
 		}
 	}
 	
 	/*Delete the old table and point the new table created in the heap to the old table*/		
-	for (int i = 0; i < tableSize; i++) {
-		//TODO : try to delete the getValueEntries. Null pointer when reached from here? 
+	for (int i = 0; i < tableSize; i++) {	
 		delete table[i];
 	}
+	delete table;
 
 	initialize(newTableSize);
 	table = newT->getTable();

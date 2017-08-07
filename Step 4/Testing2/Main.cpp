@@ -1,5 +1,7 @@
 #include <ctime>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 #include "HashEntry.h"
 #include "HashMapHE.h"
@@ -13,26 +15,35 @@ int main(int argc, char* argv[]) {
 	string filename = argv[1], word, dt;
 
 	HashMapHE map(0);
-	//HashMapVE map(0);
 	FILE * file = NULL;
 	char buf[1024];
 	
-	if (fopen_s(&file, filename.c_str(), "r") == 0) {
-
-		while (fscanf_s(file, "%s", buf, sizeof(buf)) != EOF)
+	string line;
+	ifstream myfile(filename);
+	if (myfile.is_open())
+	{
+		while (getline(myfile, line))
 		{
-			word = buf;
-			if (dt == "")
-				//TODO: Read entrie line of document instead
-				dt = word;
-			if (word == "---END.OF.DOCUMENT---") {
-				dt = "";
-				continue;
+			istringstream iss(line);
+			while (iss >> word) {
+				if (dt == "") {
+					dt = line;
+					continue;
+				}
+				if (word == "---END.OF.DOCUMENT---") {
+					dt = "";
+					continue;
+				}
+				map.put(word, dt);
 			}
-			map.put(word, dt);			
 		}
-	}	
+		myfile.close();
+	}
+	else {
+		cout << "File could not be read" << endl;
+	}
 
+	
 	clock_t duration = clock() - start;
 	cout << "Duration : " << duration / CLOCKS_PER_SEC << "\n";
 	cout << "Max chained collision length: " << map.MAX_NO_OF_COLLISIONS << endl;
@@ -47,13 +58,13 @@ int main(int argc, char* argv[]) {
 		if (searchstring == "exit")
 			break;
 
-		/*FOR HashMapHE*/
+		/*printing out the rresults in the search engine*/
 		HashEntry * result = map.get(searchstring);
 		if (result != NULL) {
 			cout << searchstring << " exists in the documents: " << endl;
 			HashMapVE * entries = result->getValueEntries();
-			entries->print();		
-		}		
+			entries->print();
+		}
 		else
 			cout << searchstring << " does not exist!\n";
 
