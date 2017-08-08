@@ -149,7 +149,7 @@ void HashMapHE::reHashMap() {
 	}
 	
 	/*Delete the old table and point the new table created in the heap to the old table*/		
-	for (int i = 0; i < tableSize; i++) {	
+	for (int i = 0; i < tableSize; i++) {			
 		delete table[i];
 	}
 	delete table;
