@@ -128,22 +128,18 @@ void HashMapVE::initialize(int tbSz) {
 void HashMapVE::print() {
 	for (int i = 0; i < tableSize; i++) {
 		if (table[i] != NULL) {
-			cout << table[i]->getKey() << endl;
-
-			if (table[i]->getNext() != NULL) {
-				ValueEntry * current = table[i]->getNext();
-				while (current != NULL) {
-					cout << current->getKey() << endl;
+			
+			ValueEntry * current = table[i];
+			while (current != NULL) {
+				cout << current->getKey() << endl;
 				
-					if (current->getNext() == NULL)
-						break;
+				if (current->getNext() == NULL)
+					break;
 
-					current = current->getNext();
-				}
-			}
+				current = current->getNext();
+			}		
 		}		
 	}
-	cout << "Table size :" << tableSize << endl;
 }
 
 ValueEntry ** HashMapVE::getTable() {

@@ -10,7 +10,7 @@ public:
 	virtual int getTableSize() = 0;
 	virtual void print() = 0;
 
-	const int DEFAULT_TABLE_SIZE = 2;
+	const int DEFAULT_TABLE_SIZE = 7;
 	const double DENSITY_THRESHOLD = 0.75;
 	int MAX_NO_OF_COLLISIONS, NO_OF_ENTRIES;
 
