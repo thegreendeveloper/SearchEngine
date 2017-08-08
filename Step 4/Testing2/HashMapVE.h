@@ -10,7 +10,7 @@ class HashMapVE : public HashMapAbs
 private:
 	ValueEntry **table;
 	int tableSize = 0;
-	int MAX_ENTRIES = 0;
+	int LIMIT = 0;
 
 	void initialize(int tbSz);
 	void handleCollision(ValueEntry * tablePointer, string key);

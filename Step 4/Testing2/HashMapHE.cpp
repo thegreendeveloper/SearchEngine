@@ -43,24 +43,20 @@ void HashMapHE::put(string key, string dt) {
 	if (table[hash] != NULL) {
 		if (!table[hash]->getKey()._Equal(key)) {
 			/*if it is a hashkey collission, the collisions is handled*/
-			//cout << "key : " << key << " hashkey : " << hash << " Table[hash] =" << table[hash] << endl;
 			handleCollision(table[hash], key, dt);
 		}
 		else {
 			/*if theres no hashkey collision, we simply want to update the document list*/
-			//insertValueEntry(table[hash]->getValueEntry(), dt);
 			table[hash]->getValueEntries()->put(dt);
 		}
 	}
 	else {
-		//ValueEntry * vt = new ValueEntry(dt, 0);
-		//table[hash] = new HashEntry(key, vt, 0);
 		table[hash] = new HashEntry(key, dt, 0);
 		NO_OF_ENTRIES++;
 	}
 
 	/*If the number of entries have exceeded our density limit, we rehash.*/
-	if ((tableSize - NO_OF_ENTRIES) <= DENSITY_THRESHOLD) {
+	if ((tableSize - NO_OF_ENTRIES) <= LIMIT) {
 		cout << "Rehashing ....... " << endl;
 		reHashMap();		
 	}
@@ -73,8 +69,7 @@ void HashMapHE::handleCollision(HashEntry * current, string key, string dt) {
 	while (current != NULL) {
 		numberOfCol++;
 		if (current->getKey()._Equal(key)) {
-			/*Insert document to the document list*/
-			//insertValueEntry(current->getValueEntry(), dt);
+			/*Insert document to the document list*/				
 			current->getValueEntries()->put(dt);			
 			keyExist = true;
 			break;
@@ -174,7 +169,7 @@ void HashMapHE::initialize(int tbSz) {
 		table[i] = NULL;
 	}
 	tableSize = tbSz;
-	MAX_ENTRIES = tableSize * DENSITY_THRESHOLD;
+	LIMIT = tableSize * (1-DENSITY_THRESHOLD);
 	MAX_NO_OF_COLLISIONS = 0;
 }
 

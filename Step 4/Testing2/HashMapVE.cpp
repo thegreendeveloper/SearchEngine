@@ -45,7 +45,8 @@ void HashMapVE::put(string key) {
 	}
 
 	/*If the number of entries have exceeded our density limit, we rehash.*/
-	if ((tableSize - NO_OF_ENTRIES) <= DENSITY_THRESHOLD) {
+	if ((tableSize - NO_OF_ENTRIES) <= LIMIT) {
+		//cout << "Rehashing docuemnts.." << endl;
 		reHashMap();
 	}
 }
@@ -121,7 +122,7 @@ void HashMapVE::initialize(int tbSz) {
 		table[i] = NULL;
 	}
 	tableSize = tbSz;
-	MAX_ENTRIES = tableSize * DENSITY_THRESHOLD;
+	LIMIT = tableSize * (1-DENSITY_THRESHOLD);
 	MAX_NO_OF_COLLISIONS = 0;
 }
 
