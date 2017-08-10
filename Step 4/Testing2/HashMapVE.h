@@ -13,7 +13,7 @@ private:
 	int LIMIT = 0;
 
 	void initialize(int tbSz);
-	void handleCollision(ValueEntry * tablePointer, string key);
+	void handleCollision(ValueEntry * current, string key);
 	void reHashMap();
 	
 

@@ -32,13 +32,16 @@ HashEntry * HashMapHE::get(string key) {
 
 
 void HashMapHE::put(string key, string dt) {
+	if (key == "algae") {
+		int i = 0;
+	}
 	size_t hashKey = hash<string>()(key);
 	//unsigned int hashKey = HashFunctions::RSHash(key.c_str(), key.length());
 	//unsigned int hashKey = HashFunctions::JSHash(key.c_str(), key.length());
 	//unsigned int hashKey = HashFunctions::PJWHash(key.c_str(), key.length());
 	//unsigned int hashKey = HashFunctions::SDBMHash(key.c_str(), key.length());
 	//unsigned int hashKey = HashFunctions::DJBHash(key.c_str(), key.length());
-	
+
 	int hash = hashKey % tableSize;
 	if (table[hash] != NULL) {
 		if (!table[hash]->getKey()._Equal(key)) {
@@ -58,7 +61,7 @@ void HashMapHE::put(string key, string dt) {
 	/*If the number of entries have exceeded our density limit, we rehash.*/
 	if ((tableSize - NO_OF_ENTRIES) <= LIMIT) {
 		cout << "Rehashing ....... " << endl;
-		reHashMap();		
+		reHashMap();
 	}
 }
 
@@ -69,8 +72,8 @@ void HashMapHE::handleCollision(HashEntry * current, string key, string dt) {
 	while (current != NULL) {
 		numberOfCol++;
 		if (current->getKey()._Equal(key)) {
-			/*Insert document to the document list*/				
-			current->getValueEntries()->put(dt);			
+			/*Insert document to the document list*/
+			current->getValueEntries()->put(dt);
 			keyExist = true;
 			break;
 		}
@@ -121,10 +124,21 @@ void HashMapHE::InsertReHashValueEntries(HashMapHE * newT, HashMapVE * oldEntrie
 	int size = oldEntries->getTableSize();
 	for (int i = 0; i < size; i++) {
 		if (oldEntries->getTable()[i] != NULL) {
-			newT->put(key, oldEntries->getTable()[i]->getKey());					
+			
+			/*Inserting value entries again*/
+			ValueEntry * current = oldEntries->getTable()[i];
+			while (current != NULL) {
+				newT->put(key, current->getKey());
+				
+				if (current->getNext() == NULL)
+					break;
+				current = current->getNext();
+			}
+
 		}
-	}	
+	}
 }
+
 void HashMapHE::reHashMap() {
 
 	/*Expanding the old table size by 2*/
@@ -134,22 +148,23 @@ void HashMapHE::reHashMap() {
 	for (int i = 0; i < tableSize; i++) {
 		if (table[i] != NULL) {
 
-			/*Inserting all value entries of the first node in the index*/
-			InsertReHashValueEntries(newT, table[i]->getValueEntries(), table[i]->getKey());
-
-			/*Recursing and conituning in the list of collissions*/
-			HashEntry * currentH = table[i]->getNext();
+			if (table[i]->getKey() == "algae") {
+				int j = 0;
+			}
+			
+			/*Iterating through the list of collissions*/
+			HashEntry * currentH = table[i];// ->getNext();
 			while (currentH != NULL) {
 				InsertReHashValueEntries(newT, currentH->getValueEntries(), currentH->getKey());
 				if (currentH->getNext() == NULL)
-					break;				
+					break;
 				currentH = currentH->getNext();
 			}
 		}
 	}
-	
-	/*Delete the old table and point the new table created in the heap to the old table*/		
-	for (int i = 0; i < tableSize; i++) {			
+
+	/*Delete the old table and point the new table created in the heap to the old table*/
+	for (int i = 0; i < tableSize; i++) {
 		delete table[i];
 	}
 	delete table;
@@ -169,7 +184,7 @@ void HashMapHE::initialize(int tbSz) {
 		table[i] = NULL;
 	}
 	tableSize = tbSz;
-	LIMIT = tableSize * (1-DENSITY_THRESHOLD);
+	LIMIT = tableSize * (1 - DENSITY_THRESHOLD);
 	MAX_NO_OF_COLLISIONS = 0;
 }
 

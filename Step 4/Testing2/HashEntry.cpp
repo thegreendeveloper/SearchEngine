@@ -2,7 +2,6 @@
 
 HashEntry::HashEntry(string key, string valueEntry, HashEntry * next) {
 	this->key = key;
-	//this->valueEntry = valueEntry;
 	entries = new HashMapVE(0);
 	entries->put(valueEntry);
 	this->next = next;
@@ -10,7 +9,6 @@ HashEntry::HashEntry(string key, string valueEntry, HashEntry * next) {
 
 HashEntry::~HashEntry()
 {
-	//delete valueEntry;
 	delete entries;
 	delete next;
 }
@@ -23,9 +21,6 @@ HashEntry * HashEntry::getNext() {
 	return next;
 }
 
-//ValueEntry * HashEntry::getValueEntry() {
-//	return valueEntry;
-//}
 HashMapVE * HashEntry::getValueEntries() {
 	return entries;
 }

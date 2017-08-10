@@ -80,7 +80,6 @@ void HashMapVE::handleCollision(ValueEntry * current, string key) {
 
 
 void HashMapVE::reHashMap() {
-
 	/*Expanding the old table size by 2*/
 	int newTableSize = 2 * tableSize;
 	HashMapVE * newT = new HashMapVE(newTableSize);

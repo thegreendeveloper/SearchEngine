@@ -2,7 +2,6 @@
 #define HashEntry_HEADER
 
 #include <iostream>
-//#include "ValueEntry.h"
 #include "HashMapVE.h"
 
 using namespace std;
@@ -15,7 +14,6 @@ public:
 
 	string getKey();
 	HashEntry * getNext();
-	//ValueEntry * getValueEntry();
 	HashMapVE * getValueEntries();
 
 	void setNext(HashEntry * next);
@@ -23,7 +21,6 @@ public:
 private:
 	string key;
 	HashEntry * next; /*Linked list of hashEntries aka. chained hashing*/
-	//ValueEntry * valueEntry; /*Linked list of documents*/
 	HashMapVE * entries;
 };
 #endif

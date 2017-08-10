@@ -13,6 +13,7 @@ public:
 
 private:
 	vector<string> destructSearchString(string searchString);
+	void intersectSearchstring(vector<string> searchStrings);
 	HashMapHE * map;
 };
 
