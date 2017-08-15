@@ -5,7 +5,7 @@ Index::Index(HashMapHE * map)
 {
 	/*Initialize global map*/
 	this->map = map;
-	
+
 	/*Ranking would  require some restructuring of the documents or maybe this should be done after creating the map*/
 }
 
@@ -24,7 +24,7 @@ void Index::Search(string searchstring) {
 			cout << searchstring << " exists in the documents: " << endl;
 			HashMapVE * entries = result->getValueEntries();
 			/*raddix sort result*/
-			radix.sort(entries);			
+			radix.sort(entries);
 			return;
 		}
 
@@ -49,24 +49,32 @@ void Index::intersectSearchstring(vector<string> searchStrings) {
 	/*Extract the first word in the list, use this list to compare documents of all other words in the searchstring*/
 	HashMapVE * entries = map->get(searchStrings[0])->getValueEntries();
 	for (int i = 0; i < entries->getTableSize(); i++) {
-		if (entries->getTable()[i] != NULL) {
-			bool intersect = false;
+		ValueEntry * current = entries->getTable()[i];
+		if (current != NULL) {
+			bool intersect = true;
+			int occ = 0;
 			for (vector<string>::iterator it = searchStrings.begin() + 1; it != searchStrings.end(); it++) {
 				HashEntry * entry = map->get(*it);
-				if (entry != NULL && entry->getValueEntries()->get(entries->getTable()[i]->getKey()))
-					intersect = true;
-				else
+				if (entry == NULL || !entry->getValueEntries()->get(current->getKey())) {
 					intersect = false;
+				}
+
+				if (!intersect)
+					break;
+				occ += entry->getValueEntries()->get(current->getKey())->getOcc();
 			}
-			//TODO Find a way to sort according to the most popular document. Dont know if relevant.*/
-			if (intersect)
+			/*If all words in the document intersect then we add the document to the list. Addition the occurences.*/
+			if (intersect) {
 				documents->put(entries->getTable()[i]->getKey());
+				documents->get(entries->getTable()[i]->getKey())->setOcc(entries->getTable()[i]->getOcc() + occ);
+			}
 		}
 	}
 	/*output the intersected documents*/
 	if (!documents->isEmpty()) {
 		cout << "The words intersect in the documents: " << endl;
-		documents->print();
+		RaddixSort radix;
+		radix.sort(documents);
 	}
 	else
 		cout << "None of the words intersect" << endl;
