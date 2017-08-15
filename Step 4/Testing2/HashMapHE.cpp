@@ -31,7 +31,10 @@ HashEntry * HashMapHE::get(string key) {
 
 
 
-void HashMapHE::put(string key, string dt) {	
+void HashMapHE::put(string key, string dt) {
+	if (empty)
+		empty = false;
+
 	size_t hashKey = hash<string>()(key);
 	//unsigned int hashKey = HashFunctions::RSHash(key.c_str(), key.length());
 	//unsigned int hashKey = HashFunctions::JSHash(key.c_str(), key.length());
@@ -87,7 +90,7 @@ void HashMapHE::handleCollision(HashEntry * current, string key, string dt) {
 	if (numberOfCol >= MAX_NO_OF_COLLISIONS)
 		MAX_NO_OF_COLLISIONS = numberOfCol;
 
-	/*TODO : If HIGHEST_NO_OF_COLLISIONS is bigger than MAX_NO_OF_COLLISIONS, then expand hashtable and rehash everything*/
+	//TODO : If HIGHEST_NO_OF_COLLISIONS is bigger than MAX_NO_OF_COLLISIONS, then expand hashtable and rehash everything*/
 }
 
 
@@ -171,6 +174,9 @@ void HashMapHE::print() {
 	}
 }
 
+bool HashMapHE::isEmpty() {
+	return empty;
+}
 HashEntry ** HashMapHE::getTable() {
 	return table;
 }

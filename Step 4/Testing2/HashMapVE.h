@@ -9,6 +9,7 @@ class HashMapVE : public HashMapAbs
 {
 private:
 	ValueEntry **table;
+	bool empty = true;
 	int tableSize = 0;
 	int LIMIT = 0;
 
@@ -26,6 +27,7 @@ public:
 	int getTableSize();
 	void put(string key);
 	void print();
+	bool isEmpty();
 
 	~HashMapVE();
 };

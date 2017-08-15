@@ -30,6 +30,9 @@ ValueEntry * HashMapVE::get(string key) {
 
 
 void HashMapVE::put(string key) {
+	if (empty)
+		empty = false;
+
 	size_t hashKey = hash<string>()(key);
 
 	int hash = hashKey % tableSize;
@@ -38,10 +41,9 @@ void HashMapVE::put(string key) {
 		if (!table[hash]->getKey()._Equal(key)) {
 			handleCollision(table[hash], key);
 		}
-		else {
-			/*TODO: Test we update the counter that represents the number of occurences*/
+		else
+			/*We update the counter that represents the number of occurences*/
 			table[hash]->setOcc(table[hash]->getOcc() + 1);
-		}
 	}
 	else {
 		table[hash] = new ValueEntry(key, 0);
@@ -62,7 +64,7 @@ void HashMapVE::handleCollision(ValueEntry * current, string key) {
 	while (current != NULL) {
 		numberOfCol++;
 		if (current->getKey()._Equal(key)) {
-			/*TODO : TEST update the occurences of the word in the document*/
+			/*update the occurences of the word in the document*/
 			current->setOcc(current->getOcc() + 1);
 			keyExist = true;
 			break;
@@ -79,7 +81,7 @@ void HashMapVE::handleCollision(ValueEntry * current, string key) {
 	if (numberOfCol >= MAX_NO_OF_COLLISIONS)
 		MAX_NO_OF_COLLISIONS = numberOfCol;
 
-	/*TODO : If HIGHEST_NO_OF_COLLISIONS is bigger than MAX_NO_OF_COLLISIONS, then expand hashtable and rehash everything*/
+	//TODO : If HIGHEST_NO_OF_COLLISIONS is bigger than MAX_NO_OF_COLLISIONS, then expand hashtable and rehash everything*/
 }
 
 
@@ -95,7 +97,7 @@ void HashMapVE::reHashMap() {
 			ValueEntry * currentH = table[i];
 			while (currentH != NULL) {
 				newT->put(currentH->getKey());
-				/*TODO : Test updating number of occurences*/				
+				/*updating number of occurences*/				
 				newT->get(currentH->getKey())->setOcc(currentH->getOcc());
 				if (currentH->getNext() == NULL)
 					break;
@@ -147,9 +149,14 @@ void HashMapVE::print() {
 	}
 }
 
+bool HashMapVE::isEmpty() {
+	return empty;
+}
+
 ValueEntry ** HashMapVE::getTable() {
 	return table;
 }
+
 HashMapVE::~HashMapVE() {
 	if (tableSize == 0)
 		return;

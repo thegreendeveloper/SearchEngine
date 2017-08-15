@@ -13,6 +13,7 @@ class HashMapHE : public HashMapAbs
 {
 private:
 	HashEntry **table;
+	bool empty = true;
 	int tableSize = 0;
 	int LIMIT = 0;	
 
@@ -30,7 +31,8 @@ public:
 	int getTableSize();
 	void put(string key, string dt);
 	void print();
-	
+	bool isEmpty();
+
 	~HashMapHE();
 		
 };

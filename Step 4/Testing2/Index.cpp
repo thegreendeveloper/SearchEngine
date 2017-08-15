@@ -1,6 +1,5 @@
 #include "Index.h"
-
-
+#include "RaddixSort.h"
 
 Index::Index(HashMapHE * map)
 {
@@ -16,15 +15,16 @@ Index::~Index()
 }
 
 void Index::Search(string searchstring) {
-	/*TODO :: printing out the rresults in the search engine*/
+	//TODO try to optimize printing otu the documents*/
 	vector<string> searchStrings = destructSearchString(searchstring);
-
+	RaddixSort radix;
 	if (searchStrings.size() == 1) {
 		HashEntry * result = map->get(searchstring);
 		if (result != NULL) {
 			cout << searchstring << " exists in the documents: " << endl;
 			HashMapVE * entries = result->getValueEntries();
-			entries->print();
+			/*raddix sort result*/
+			radix.sort(entries);			
 			return;
 		}
 
@@ -43,7 +43,8 @@ void Index::Search(string searchstring) {
 }
 
 void Index::intersectSearchstring(vector<string> searchStrings) {
-	vector<string> documents;
+	//vector<string> documents;
+	HashMapVE * documents = new HashMapVE(0);
 
 	/*Extract the first word in the list, use this list to compare documents of all other words in the searchstring*/
 	HashMapVE * entries = map->get(searchStrings[0])->getValueEntries();
@@ -51,21 +52,21 @@ void Index::intersectSearchstring(vector<string> searchStrings) {
 		if (entries->getTable()[i] != NULL) {
 			bool intersect = false;
 			for (vector<string>::iterator it = searchStrings.begin() + 1; it != searchStrings.end(); it++) {
-				if (map->get(*it)->getValueEntries()->get(entries->getTable()[i]->getKey()))
+				HashEntry * entry = map->get(*it);
+				if (entry != NULL && entry->getValueEntries()->get(entries->getTable()[i]->getKey()))
 					intersect = true;
 				else
 					intersect = false;
 			}
+			//TODO Find a way to sort according to the most popular document. Dont know if relevant.*/
 			if (intersect)
-				documents.push_back(entries->getTable()[i]->getKey());
+				documents->put(entries->getTable()[i]->getKey());
 		}
 	}
 	/*output the intersected documents*/
-	if (documents.size() != 0) {
+	if (!documents->isEmpty()) {
 		cout << "The words intersect in the documents: " << endl;
-		for (vector<string>::iterator it = documents.begin(); it != documents.end(); it++) {
-			cout << *it << endl;
-		}
+		documents->print();
 	}
 	else
 		cout << "None of the words intersect" << endl;
