@@ -14,7 +14,7 @@ using namespace std;
 class Utilities
 {
 public:
-	static void ImportFile(string fileName, HashMapHE * map);
+	static bool ImportFile(string fileName, HashMapHE * map);
 	static int getLineCount(string fileName);
 };
 

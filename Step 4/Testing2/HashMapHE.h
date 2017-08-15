@@ -18,7 +18,6 @@ private:
 
 	void initialize(int tbSz);
 	void handleCollision(HashEntry * tablePointer, string key, string dt);
-	void insertValueEntry(ValueEntry * initial, string dt);	
 	void reHashMap();
 	void InsertReHashValueEntries(HashMapHE * newT, HashMapVE * oldEntries, string key);
 

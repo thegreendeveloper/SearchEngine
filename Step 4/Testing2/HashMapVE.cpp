@@ -34,20 +34,22 @@ void HashMapVE::put(string key) {
 
 	int hash = hashKey % tableSize;
 	if (table[hash] != NULL) {
+		/*if it is a hashkey collission, the collisions is handled*/
 		if (!table[hash]->getKey()._Equal(key)) {
-			/*if it is a hashkey collission, the collisions is handled*/
 			handleCollision(table[hash], key);
+		}
+		else {
+			/*TODO: Test we update the counter that represents the number of occurences*/
+			table[hash]->setOcc(table[hash]->getOcc() + 1);
 		}
 	}
 	else {
-		table[hash] = new ValueEntry(key,0);
+		table[hash] = new ValueEntry(key, 0);
 		NO_OF_ENTRIES++;
 	}
 
 	/*If the number of entries have exceeded our density limit, we rehash.*/
-	if ((tableSize - NO_OF_ENTRIES) <= LIMIT) {
-		//print();
-		//cout << "Rehashing docuemnts.." << endl;
+	if ((tableSize - NO_OF_ENTRIES) <= LIMIT) {		
 		reHashMap();
 	}
 }
@@ -60,6 +62,8 @@ void HashMapVE::handleCollision(ValueEntry * current, string key) {
 	while (current != NULL) {
 		numberOfCol++;
 		if (current->getKey()._Equal(key)) {
+			/*TODO : TEST update the occurences of the word in the document*/
+			current->setOcc(current->getOcc() + 1);
 			keyExist = true;
 			break;
 		}
@@ -83,7 +87,7 @@ void HashMapVE::reHashMap() {
 	/*Expanding the old table size by 2*/
 	int newTableSize = 2 * tableSize;
 	HashMapVE * newT = new HashMapVE(newTableSize);
-
+	
 	for (int i = 0; i < tableSize; i++) {
 		if (table[i] != NULL) {
 
@@ -91,7 +95,8 @@ void HashMapVE::reHashMap() {
 			ValueEntry * currentH = table[i];
 			while (currentH != NULL) {
 				newT->put(currentH->getKey());
-
+				/*TODO : Test updating number of occurences*/				
+				newT->get(currentH->getKey())->setOcc(currentH->getOcc());
 				if (currentH->getNext() == NULL)
 					break;
 
@@ -101,7 +106,7 @@ void HashMapVE::reHashMap() {
 	}
 
 	/*Delete the old table and point the new table created in the heap to the old table*/
-	for (int i = 0; i < tableSize; i++) {		
+	for (int i = 0; i < tableSize; i++) {
 		delete table[i];
 	}
 	delete table;
@@ -121,24 +126,24 @@ void HashMapVE::initialize(int tbSz) {
 		table[i] = NULL;
 	}
 	tableSize = tbSz;
-	LIMIT = tableSize * (1-DENSITY_THRESHOLD);
+	LIMIT = tableSize * (1 - DENSITY_THRESHOLD);
 	MAX_NO_OF_COLLISIONS = 0;
 }
 
 void HashMapVE::print() {
 	for (int i = 0; i < tableSize; i++) {
 		if (table[i] != NULL) {
-			
+
 			ValueEntry * current = table[i];
 			while (current != NULL) {
-				cout << current->getKey() << endl;
-				
+				cout << "Document = "<< current->getKey() << "\t\t occurences = " << current->getOcc() << endl;
+
 				if (current->getNext() == NULL)
 					break;
 
 				current = current->getNext();
-			}		
-		}		
+			}
+		}
 	}
 }
 

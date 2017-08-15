@@ -31,10 +31,7 @@ HashEntry * HashMapHE::get(string key) {
 
 
 
-void HashMapHE::put(string key, string dt) {
-	if (key == "algae") {
-		int i = 0;
-	}
+void HashMapHE::put(string key, string dt) {	
 	size_t hashKey = hash<string>()(key);
 	//unsigned int hashKey = HashFunctions::RSHash(key.c_str(), key.length());
 	//unsigned int hashKey = HashFunctions::JSHash(key.c_str(), key.length());
@@ -44,8 +41,8 @@ void HashMapHE::put(string key, string dt) {
 
 	int hash = hashKey % tableSize;
 	if (table[hash] != NULL) {
+		/*if it is a hashkey collission, the collisions is handled*/
 		if (!table[hash]->getKey()._Equal(key)) {
-			/*if it is a hashkey collission, the collisions is handled*/
 			handleCollision(table[hash], key, dt);
 		}
 		else {
@@ -84,7 +81,6 @@ void HashMapHE::handleCollision(HashEntry * current, string key, string dt) {
 	}
 
 	if (!keyExist) {
-		//ValueEntry * vt = new ValueEntry(dt, 0);
 		current->setNext(new HashEntry(key, dt, 0));
 		NO_OF_ENTRIES++;
 	}
@@ -94,42 +90,18 @@ void HashMapHE::handleCollision(HashEntry * current, string key, string dt) {
 	/*TODO : If HIGHEST_NO_OF_COLLISIONS is bigger than MAX_NO_OF_COLLISIONS, then expand hashtable and rehash everything*/
 }
 
-void HashMapHE::insertValueEntry(ValueEntry * initial, string dt) {
-	ValueEntry * current = initial;
-	bool documentExist = false;
-
-	while (current != NULL) {
-
-		if (current->getKey()._Equal(dt)) {
-			documentExist = true;
-			break;
-		}
-
-		if (current->getNext() == NULL)
-			break;
-
-		current = current->getNext();
-	}
-
-	if (!documentExist) {
-		/*create new document and insert it*/
-		ValueEntry * vt = new ValueEntry(dt, 0);
-		current->setNext(vt);
-	}
-
-}
-
 
 void HashMapHE::InsertReHashValueEntries(HashMapHE * newT, HashMapVE * oldEntries, string key) {
 	int size = oldEntries->getTableSize();
 	for (int i = 0; i < size; i++) {
 		if (oldEntries->getTable()[i] != NULL) {
-			
+
 			/*Inserting value entries again*/
 			ValueEntry * current = oldEntries->getTable()[i];
 			while (current != NULL) {
 				newT->put(key, current->getKey());
-				
+				/*Updating the number of occurences*/
+				newT->get(key)->getValueEntries()->get(current->getKey())->setOcc(current->getOcc());
 				if (current->getNext() == NULL)
 					break;
 				current = current->getNext();
@@ -151,9 +123,9 @@ void HashMapHE::reHashMap() {
 			if (table[i]->getKey() == "algae") {
 				int j = 0;
 			}
-			
+
 			/*Iterating through the list of collissions*/
-			HashEntry * currentH = table[i];// ->getNext();
+			HashEntry * currentH = table[i];
 			while (currentH != NULL) {
 				InsertReHashValueEntries(newT, currentH->getValueEntries(), currentH->getKey());
 				if (currentH->getNext() == NULL)
@@ -202,6 +174,7 @@ void HashMapHE::print() {
 HashEntry ** HashMapHE::getTable() {
 	return table;
 }
+
 HashMapHE::~HashMapHE() {
 	if (tableSize == 0)
 		return;

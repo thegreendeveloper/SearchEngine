@@ -6,9 +6,8 @@ Index::Index(HashMapHE * map)
 {
 	/*Initialize global map*/
 	this->map = map;
-
-	/*build suffix tree*/
-	/*Ranking would  require some restructuring of the documents or maybe this should be done when creating the map*/
+	
+	/*Ranking would  require some restructuring of the documents or maybe this should be done after creating the map*/
 }
 
 
@@ -45,6 +44,7 @@ void Index::Search(string searchstring) {
 
 void Index::intersectSearchstring(vector<string> searchStrings) {
 	vector<string> documents;
+
 	/*Extract the first word in the list, use this list to compare documents of all other words in the searchstring*/
 	HashMapVE * entries = map->get(searchStrings[0])->getValueEntries();
 	for (int i = 0; i < entries->getTableSize(); i++) {
