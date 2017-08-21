@@ -1,5 +1,6 @@
 #include "Index.h"
 #include "RaddixSort.h"
+#include "SpellChecker.h"
 
 Index::Index(HashMapHE * map)
 {
@@ -28,7 +29,9 @@ void Index::Search(string searchstring) {
 			return;
 		}
 
-		cout << searchstring << " does not exist!" << endl;
+		/*Result did not exist. We call our spellchecker applications to find the words most similar to the input*/
+		SpellChecker check(searchstring, map);
+		check.Levenshtein();		
 		return;
 	}
 
