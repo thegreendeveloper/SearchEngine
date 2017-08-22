@@ -28,8 +28,6 @@ void SpellChecker::Levenshtein() {
 	RaddixSort radix(resultSet);
 	radix.sort();	
 	radix.print(false, 10);
-	delete resultSet;
-
 }
 
 /*Non-recursive method :  O(n^2) time. O(n) space.*/
@@ -80,4 +78,5 @@ int SpellChecker::LevenshteinDistance(string s, int n, string t, int m) {
 
 SpellChecker::~SpellChecker()
 {
+	delete resultSet;
 }

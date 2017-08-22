@@ -83,10 +83,10 @@ void Index::intersectSearchstring(vector<string> searchStrings) {
 		RaddixSort radix(documents);
 		radix.sort();
 		radix.print(true, INT_MAX);
-		delete documents;
 	}
 	else
 		cout << "None of the words intersect" << endl;
+	delete documents;
 }
 
 vector<string> Index::destructSearchString(string searchString) {
