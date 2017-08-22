@@ -15,7 +15,8 @@ public:
 	void Levenshtein();
 
 private:
-	vector<string> dictionary;
+	//vector<string> dictionary;
+	HashMapHE * map;
 	HashMapVE * resultSet;
 
 	string input;

@@ -5,11 +5,8 @@
 SpellChecker::SpellChecker(string input, HashMapHE * map)
 {
 	this->input = input;
-	for (int i = 0; i < map->getTableSize(); i++) {
-		if (map->getTable()[i] != NULL) {
-			dictionary.push_back(map->getTable()[i]->getKey());
-		}
-	}
+	this->map = map;
+
 	/*TODO: We just pick an initial distance. The perfect distance needs to be considered.*/
 	MAX_DISTANCE = 3;
 	resultSet = new HashMapVE(0);
@@ -18,16 +15,20 @@ SpellChecker::SpellChecker(string input, HashMapHE * map)
 
 void SpellChecker::Levenshtein() {
 
-	for (vector<string>::iterator it = dictionary.begin(); it != dictionary.end(); it++) {
-		string word = *it;
-		int distance = LevenshteinDistance(input, input.length(), word, word.length());
-		resultSet->put(word);
-		resultSet->get(word)->setOcc(distance);
+	for (int i = 0; i < map->getTableSize(); i++) {
+		if (map->getTable()[i] != NULL) {
+			string word = map->getTable()[i]->getKey();
+			int distance = LevenshteinDistance(input, input.length(), word, word.length());
+			resultSet->put(word);
+			resultSet->get(word)->setOcc(distance);
+		}
 	}
 
-	cout << "Did you mean: " << endl;
-	RaddixSort radix;
-	radix.sort(resultSet);
+	cout << "Did you mean: " << endl;	
+	RaddixSort radix(resultSet);
+	radix.sort();	
+	radix.print(false, 10);
+	delete resultSet;
 
 }
 
@@ -38,6 +39,7 @@ int SpellChecker::LevenshteinDistance(string s, int n, string t, int m) {
 	if (m == 0)
 		return n;
 
+	/*initializing*/
 	int* distance = new int[n];
 	for (int i = 0; i < n; i++)
 		distance[i] = i;
@@ -78,5 +80,4 @@ int SpellChecker::LevenshteinDistance(string s, int n, string t, int m) {
 
 SpellChecker::~SpellChecker()
 {
-
 }

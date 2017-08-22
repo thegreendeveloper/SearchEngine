@@ -1,19 +1,21 @@
 #include "RaddixSort.h"
 
+RaddixSort::RaddixSort(HashMapVE * entries) {
+	this->entries = entries;
+}
 
-
-void RaddixSort::sort(HashMapVE * entries)
+void RaddixSort::sort()
 {
 	/*Initializing*/
 	int arrSize = entries->NO_OF_ENTRIES;
-	int* arrOcc = new int[arrSize];
-	string* arrKey = new string[arrSize];
-		
+	arrOcc = new int[arrSize];
+	arrKey = new string[arrSize];
+
 	for (int i = 0; i < arrSize; i++) {
 		arrOcc[i] = 0;
 	}
 
-	/*inserting values; document name and occurence, into temp arrays*/
+	///*inserting values; document name and occurence, into temp arrays*/
 	int counter = 0;
 	for (int i = 0; i < entries->getTableSize(); i++) {
 		if (entries->getTable()[i] != NULL) {
@@ -25,18 +27,9 @@ void RaddixSort::sort(HashMapVE * entries)
 
 	int maxVal = getMaximumValue(arrOcc);
 
-	/*Implementation of countsort, which can be used in radix sort*/
+	///*Implementation of countsort, which can be used in radix sort*/
 	for (int exp = 1; maxVal / exp > 0; exp *= 10)
 		countSort(arrOcc, arrKey, arrSize, exp);
-
-	/*printing*/
-	for (int i = entries->NO_OF_ENTRIES - 1; i >= 0; i--) {
-		cout << arrKey[i] << " : " << arrOcc[i] << endl;
-	}
-	cout << endl;
-
-	delete [] arrOcc;
-	delete [] arrKey;
 }
 
 
@@ -44,7 +37,7 @@ void RaddixSort::countSort(int arrOcc[], string arrKey[], int n, int exp)
 {
 	string* outputKey = new string[n];
 	int* output = new int[n];
-	
+
 	for (int i = 0; i < n; i++) {
 		output[i] = 0;
 	}
@@ -71,10 +64,13 @@ void RaddixSort::countSort(int arrOcc[], string arrKey[], int n, int exp)
 
 	// Copy the output array to arr[], so that arr[] now
 	// contains sorted numbers according to current digit
-	for (i = 0; i < n; i++){
+	for (i = 0; i < n; i++) {
 		arrOcc[i] = output[i];
 		arrKey[i] = outputKey[i];
 	}
+
+	delete [] outputKey;
+	delete [] output;
 
 }
 
@@ -85,4 +81,30 @@ int RaddixSort::getMaximumValue(int arr[]) {
 			maxValue = arr[i];
 	}
 	return maxValue;
+}
+
+void RaddixSort::print(bool reverse, int maxOutput) {
+	
+	int counter = 0;
+	if (reverse) {		
+		for (int i = entries->NO_OF_ENTRIES - 1; i >= 0; i--) {
+			cout << arrKey[i] << " : " << arrOcc[i] << endl;
+			if (counter > maxOutput)
+				break;
+			counter++;
+		}
+	}
+	else {
+		for (int i = 0; i < entries->NO_OF_ENTRIES; i++) {
+			cout << arrKey[i] << " : " << arrOcc[i] << endl;
+			if (counter > maxOutput)
+				break;
+			counter++;
+		}
+	}
+	cout << endl;
+
+	delete [] arrOcc;
+	delete [] arrKey;
+
 }

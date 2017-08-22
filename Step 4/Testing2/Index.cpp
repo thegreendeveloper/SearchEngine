@@ -18,20 +18,24 @@ Index::~Index()
 void Index::Search(string searchstring) {
 	//TODO try to optimize printing otu the documents*/
 	vector<string> searchStrings = destructSearchString(searchstring);
-	RaddixSort radix;
+
 	if (searchStrings.size() == 1) {
 		HashEntry * result = map->get(searchstring);
 		if (result != NULL) {
 			cout << searchstring << " exists in the documents: " << endl;
 			HashMapVE * entries = result->getValueEntries();
 			/*raddix sort result*/
-			radix.sort(entries);
+			RaddixSort radix(entries);
+			radix.sort();
+			radix.print(true, INT_MAX);
+			delete entries;
 			return;
 		}
 
 		/*Result did not exist. We call our spellchecker applications to find the words most similar to the input*/
 		SpellChecker check(searchstring, map);
-		check.Levenshtein();		
+		check.Levenshtein();
+		cout << searchstring << " does not exist!" << endl;
 		return;
 	}
 
@@ -76,8 +80,10 @@ void Index::intersectSearchstring(vector<string> searchStrings) {
 	/*output the intersected documents*/
 	if (!documents->isEmpty()) {
 		cout << "The words intersect in the documents: " << endl;
-		RaddixSort radix;
-		radix.sort(documents);
+		RaddixSort radix(documents);
+		radix.sort();
+		radix.print(true, INT_MAX);
+		delete documents;
 	}
 	else
 		cout << "None of the words intersect" << endl;
