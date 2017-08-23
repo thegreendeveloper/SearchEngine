@@ -12,17 +12,16 @@ public:
 	SpellChecker(string input, HashMapHE * map);
 	~SpellChecker();
 
-	void Levenshtein();
+	void Levenshtein(bool damerau);
 
 private:
-	//vector<string> dictionary;
 	HashMapHE * map;
-	HashMapVE * resultSet;
-
+	
 	string input;
 	int MAX_DISTANCE;
 
 	int LevenshteinDistance(string s, int len_s, string t, int len_t);
+	int LevenshteinDamerauDistance(string s, int len_s, string t, int len_t);
 
 };
 

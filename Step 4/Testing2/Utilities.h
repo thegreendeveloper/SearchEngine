@@ -16,5 +16,7 @@ class Utilities
 public:
 	static bool ImportFile(string fileName, HashMapHE * map);
 	static int getLineCount(string fileName);
+private:
+	static string RemoveSpecials(string str);
 };
 

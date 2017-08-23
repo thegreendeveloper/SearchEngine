@@ -13,12 +13,16 @@ int main(int argc, char* argv[]) {
 		Index index(&map);
 
 		while (true) {
-			cout << "Input search string or type exit to stop\n";
+			cout << "Input search string. Type 'exit' to stop. Type 'p' to print dictionary.\n";
 			string searchstring;
 			getline(cin, searchstring);
 
 			if (searchstring == "exit")
 				break;
+			if (searchstring == "p") {
+				map.print();
+				continue;
+			}
 			index.Search(searchstring);
 		}
 	}

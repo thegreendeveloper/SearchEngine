@@ -28,14 +28,13 @@ void Index::Search(string searchstring) {
 			RaddixSort radix(entries);
 			radix.sort();
 			radix.print(true, INT_MAX);
-			delete entries;
 			return;
 		}
 
 		/*Result did not exist. We call our spellchecker applications to find the words most similar to the input*/
 		SpellChecker check(searchstring, map);
-		check.Levenshtein();
-		cout << searchstring << " does not exist!" << endl;
+		check.Levenshtein(false);
+		check.Levenshtein(true);
 		return;
 	}
 

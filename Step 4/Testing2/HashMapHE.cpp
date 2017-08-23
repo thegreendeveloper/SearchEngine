@@ -168,9 +168,9 @@ void HashMapHE::print() {
 		if (table[i] != NULL) {
 			cout << table[i]->getKey() << endl;
 		}
-		else {
+		/*else {
 			cout << "NULL" << endl;
-		}
+		}*/
 	}
 }
 

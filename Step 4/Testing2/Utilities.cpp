@@ -1,4 +1,26 @@
 #include "Utilities.h"
+#include <algorithm> 
+
+
+string Utilities::RemoveSpecials(string str)
+{
+	int i = 0, len = str.length();
+	while (i<len)
+	{
+		char c = str[i];
+		if (((c >= '0') && (c <= '9')) || ((c >= 'A') && (c <= 'Z')) || ((c >= 'a') && (c <= 'z')) ||(c == '-'))
+		{
+			if ((c >= 'A') && (c <= 'Z')) str[i] += 32; //Assuming dictionary contains small letters only.
+			++i;
+		}
+		else
+		{
+			str.erase(i, 1);
+			--len;
+		}
+	}
+	return str;
+}
 
 bool Utilities::ImportFile(string fileName, HashMapHE * map) {
 	clock_t start = clock();
@@ -30,7 +52,11 @@ bool Utilities::ImportFile(string fileName, HashMapHE * map) {
 					dt = "";
 					continue;
 				}
-				map->put(word, dt);
+				
+				transform(word.begin(), word.end(), word.begin(), ::tolower);
+				word = RemoveSpecials(word);
+				if(word != "")
+					map->put(word, dt);
 			}
 		}
 		myfile.close();
