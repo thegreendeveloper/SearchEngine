@@ -51,7 +51,7 @@ void HashMapVE::put(string key) {
 	}
 
 	/*If the number of entries have exceeded our density limit, we rehash.*/
-	if ((tableSize - NO_OF_ENTRIES) <= LIMIT) {		
+	if ((tableSize - NO_OF_ENTRIES) <= LIMIT) {
 		reHashMap();
 	}
 }
@@ -89,7 +89,7 @@ void HashMapVE::reHashMap() {
 	/*Expanding the old table size by 2*/
 	int newTableSize = 2 * tableSize;
 	HashMapVE * newT = new HashMapVE(newTableSize);
-	
+
 	for (int i = 0; i < tableSize; i++) {
 		if (table[i] != NULL) {
 
@@ -97,7 +97,7 @@ void HashMapVE::reHashMap() {
 			ValueEntry * currentH = table[i];
 			while (currentH != NULL) {
 				newT->put(currentH->getKey());
-				/*updating number of occurences*/				
+				/*updating number of occurences*/
 				newT->get(currentH->getKey())->setOcc(currentH->getOcc());
 				if (currentH->getNext() == NULL)
 					break;
@@ -111,11 +111,12 @@ void HashMapVE::reHashMap() {
 	for (int i = 0; i < tableSize; i++) {
 		delete table[i];
 	}
-	delete table;
+	delete[] table;
 
 	initialize(newTableSize);
 	table = newT->getTable();
 	MAX_NO_OF_COLLISIONS = newT->MAX_NO_OF_COLLISIONS;
+	
 }
 
 int HashMapVE::getTableSize() {
@@ -138,7 +139,7 @@ void HashMapVE::print() {
 
 			ValueEntry * current = table[i];
 			while (current != NULL) {
-				cout << "Document = "<< current->getKey() << "\t\t occurences = " << current->getOcc() << endl;
+				cout << "Document = " << current->getKey() << "\t\t occurences = " << current->getOcc() << endl;
 
 				if (current->getNext() == NULL)
 					break;
@@ -158,13 +159,8 @@ ValueEntry ** HashMapVE::getTable() {
 }
 
 HashMapVE::~HashMapVE() {
-	if (tableSize == 0)
-		return;
-
 	for (int i = 0; i < tableSize; i++) {
-		if (table[i] != NULL) {
-			delete table[i];
-		}
+		delete table[i];
 	}
 	delete[] table;
 }

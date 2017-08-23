@@ -13,7 +13,7 @@ SpellChecker::SpellChecker(string input, HashMapHE * map)
 }
 
 
-void SpellChecker::Levenshtein(bool damerau) {
+HashMapVE *  SpellChecker::Levenshtein(bool damerau) {
 	HashMapVE * resultSet = new HashMapVE(0);
 	int distance = 0;
 
@@ -30,12 +30,7 @@ void SpellChecker::Levenshtein(bool damerau) {
 		}
 	}
 
-	cout << "Did you mean: " << endl;	
-	RaddixSort radix(resultSet);
-	radix.sort();	
-	radix.print(false, 10);
-
-	delete resultSet;
+	return resultSet;
 }
 
 /*Non-recursive method :  O(n^2) time. O(n) space.*/
@@ -73,8 +68,8 @@ int SpellChecker::LevenshteinDistance(string s, int n, string t, int m) {
 
 	cost = distance[n - 1];
 
-	delete distance;
-	delete current;
+	delete [] distance;
+	delete [] current;
 
 	return cost;
 }

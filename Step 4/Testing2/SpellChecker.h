@@ -12,7 +12,7 @@ public:
 	SpellChecker(string input, HashMapHE * map);
 	~SpellChecker();
 
-	void Levenshtein(bool damerau);
+	HashMapVE * Levenshtein(bool damerau);
 
 private:
 	HashMapHE * map;

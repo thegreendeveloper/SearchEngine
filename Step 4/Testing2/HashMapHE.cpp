@@ -142,7 +142,7 @@ void HashMapHE::reHashMap() {
 	for (int i = 0; i < tableSize; i++) {
 		delete table[i];
 	}
-	delete table;
+	delete[] table;
 
 	initialize(newTableSize);
 	table = newT->getTable();
@@ -182,13 +182,8 @@ HashEntry ** HashMapHE::getTable() {
 }
 
 HashMapHE::~HashMapHE() {
-	if (tableSize == 0)
-		return;
-
 	for (int i = 0; i < tableSize; i++) {
-		if (table[i] != NULL) {
 			delete table[i];
-		}
 	}
 	delete[] table;
 }

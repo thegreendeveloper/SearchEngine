@@ -32,9 +32,7 @@ void Index::Search(string searchstring) {
 		}
 
 		/*Result did not exist. We call our spellchecker applications to find the words most similar to the input*/
-		SpellChecker check(searchstring, map);
-		check.Levenshtein(false);
-		check.Levenshtein(true);
+		initializeSpellChecker(searchstring);
 		return;
 	}
 
@@ -46,6 +44,24 @@ void Index::Search(string searchstring) {
 	}
 
 	intersectSearchstring(searchStrings);
+}
+
+void Index::initializeSpellChecker(string searchString) {
+	SpellChecker check(searchString, map);
+	HashMapVE * resultSet = check.Levenshtein(false);
+//	HashMapVE * resultSet2 = check.Levenshtein(true);
+
+	cout << "Did you mean: " << endl;
+	RaddixSort radix(resultSet);
+	radix.sort();
+	radix.print(false, 10);
+
+	//RaddixSort radix2(resultSet2);
+	//radix2.sort();
+	//radix2.print(false, 10);
+
+	delete resultSet;
+//	delete resultSet2;
 }
 
 void Index::intersectSearchstring(vector<string> searchStrings) {
