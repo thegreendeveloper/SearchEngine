@@ -1,6 +1,7 @@
 #include "Index.h"
 #include "RaddixSort.h"
 #include "SpellChecker.h"
+#include "Utilities.h"
 
 Index::Index(HashMapHE * map)
 {
@@ -49,19 +50,29 @@ void Index::Search(string searchstring) {
 void Index::initializeSpellChecker(string searchString) {
 	SpellChecker check(searchString, map);
 	HashMapVE * resultSet = check.Levenshtein(false);
-//	HashMapVE * resultSet2 = check.Levenshtein(true);
+	//TODO : This does not work correct.
+	HashMapVE * resultSet2 = check.Levenshtein(true);
 
 	cout << "Did you mean: " << endl;
-	RaddixSort radix(resultSet);
-	radix.sort();
-	radix.print(false, 10);
+	vector<string> * result = Utilities::sort(resultSet);
+	vector<string> * result2 = Utilities::sort(resultSet);
+	
+	for (vector<string>::iterator it = result->begin(); it != result->end(); it++) {
+		cout << *it << endl;
+	}
+	cout << endl;
 
-	//RaddixSort radix2(resultSet2);
-	//radix2.sort();
-	//radix2.print(false, 10);
+	for (vector<string>::iterator it2 = result2->begin(); it2 != result2->end(); it2++) {
+		cout << *it2 << endl;
 
-	delete resultSet;
-//	delete resultSet2;
+	}
+
+	//TODO :  hashmaps are not being deleted decently! Memory increases
+	delete resultSet; 
+	delete resultSet2;
+	delete result;
+	delete result2;
+	
 }
 
 void Index::intersectSearchstring(vector<string> searchStrings) {

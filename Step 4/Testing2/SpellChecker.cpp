@@ -9,7 +9,7 @@ SpellChecker::SpellChecker(string input, HashMapHE * map)
 
 	/*TODO: We just pick an initial distance. The perfect distance needs to be considered.*/
 	MAX_DISTANCE = 3;
-	
+
 }
 
 
@@ -20,16 +20,17 @@ HashMapVE *  SpellChecker::Levenshtein(bool damerau) {
 	for (int i = 0; i < map->getTableSize(); i++) {
 		if (map->getTable()[i] != NULL) {
 			string word = map->getTable()[i]->getKey();
-	
-			if(damerau)
+			if (damerau)
 				distance = LevenshteinDamerauDistance(input, input.length(), word, word.length());
 			else
 				distance = LevenshteinDistance(input, input.length(), word, word.length());
-			resultSet->put(word);
-			resultSet->get(word)->setOcc(distance);
+
+			if (distance < MAX_DISTANCE) {
+				resultSet->put(word);
+				resultSet->get(word)->setOcc(distance);
+			}
 		}
 	}
-
 	return resultSet;
 }
 
@@ -57,7 +58,7 @@ int SpellChecker::LevenshteinDistance(string s, int n, string t, int m) {
 				cost = 1;
 
 			if (i > 0 && j > 0)
-				current[i] = min(current[i - 1], min(distance[i], distance[i - 1])) + cost;
+				current[i] = min(current[i - 1] + 1, min(distance[i] + 1, distance[i - 1] + cost));
 			else
 				current[i] = distance[i] + cost;
 		}
@@ -68,8 +69,8 @@ int SpellChecker::LevenshteinDistance(string s, int n, string t, int m) {
 
 	cost = distance[n - 1];
 
-	delete [] distance;
-	delete [] current;
+	delete[] distance;
+	delete[] current;
 
 	return cost;
 }
@@ -84,9 +85,9 @@ int SpellChecker::LevenshteinDamerauDistance(string s, int n, string t, int m) {
 
 	/*initializing*/
 	int** distance = new int*[n];
-	
-	for (int i = 0; i < n+1; i++) {
-		distance[i] = new int[m+1];
+
+	for (int i = 0; i < n + 1; i++) {
+		distance[i] = new int[m + 1];
 		distance[i][0] = i;
 	}
 	for (int j = 0; j < m + 1; j++) {
@@ -95,30 +96,30 @@ int SpellChecker::LevenshteinDamerauDistance(string s, int n, string t, int m) {
 
 	int cost = 0;
 
-	for (int j = 1; j < m+1; j++) { // iterate through each row
-		for (int i = 1; i < n+1; i++) { // iterate through each column
+	for (int j = 1; j < m + 1; j++) { // iterate through each row
+		for (int i = 1; i < n + 1; i++) { // iterate through each column
 
-			if (s[i-1] == t[j-1])
+			if (s[i - 1] == t[j - 1])
 				cost = 0;
 			else
 				cost = 1;
 
-			distance[i][j] = min(distance[i - 1][j], min(distance[i - 1][j - 1], distance[i][j-1])) + cost;
-		
-			if ((i > 1 && j > 1) && (s[i-1] == t[j-2]) && (s[i-2] == t[j-1])) /*Damerau specific : transposition part*/
-				distance[i][j] = min(distance[i][j],distance[i-2][j-2]) + cost;
+			distance[i][j] = min(distance[i - 1][j] + 1, min(distance[i - 1][j - 1] + cost, distance[i][j - 1] + 1));
+
+			if ((i > 1 && j > 1) && (s[i - 1] == t[j - 2]) && (s[i - 2] == t[j - 1])) /*Damerau specific : transposition part*/
+				distance[i][j] = min(distance[i][j], distance[i - 2][j - 2] + cost);
 		}
 	}
 
 	cost = distance[n][m];
-	
-	for(int i = 0; i < n+1; i++)
-		delete [] distance[i];
+
+	for (int i = 0; i < n + 1; i++)
+		delete[] distance[i];
 
 	return cost;
 }
 
 SpellChecker::~SpellChecker()
 {
-	
+
 }
