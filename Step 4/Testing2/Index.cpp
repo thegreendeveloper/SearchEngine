@@ -1,5 +1,4 @@
 #include "Index.h"
-#include "RaddixSort.h"
 #include "SpellChecker.h"
 #include "Utilities.h"
 
@@ -26,9 +25,10 @@ void Index::Search(string searchstring) {
 			cout << searchstring << " exists in the documents: " << endl;
 			HashMapVE * entries = result->getValueEntries();
 			/*raddix sort result*/
-			RaddixSort radix(entries);
-			radix.sort();
-			radix.print(true, INT_MAX);
+			vector<string> * result = Utilities::sort(entries);
+			for (vector<string>::iterator it = result->begin(); it != result->end();it++) {
+				cout << *it << endl;
+			}
 			return;
 		}
 
@@ -106,12 +106,14 @@ void Index::intersectSearchstring(vector<string> searchStrings) {
 	/*output the intersected documents*/
 	if (!documents->isEmpty()) {
 		cout << "The words intersect in the documents: " << endl;
-		RaddixSort radix(documents);
-		radix.sort();
-		radix.print(true, INT_MAX);
+		vector<string> * result = Utilities::sort(documents);
+		for (vector<string>::iterator it = result->begin(); it != result->end(); it++) {
+			cout << *it << endl;
+		}
 	}
 	else
 		cout << "None of the words intersect" << endl;
+
 	delete documents;
 }
 

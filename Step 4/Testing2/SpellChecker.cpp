@@ -1,6 +1,5 @@
 #include "SpellChecker.h"
 #include <algorithm>
-#include "RaddixSort.h"
 
 SpellChecker::SpellChecker(string input, HashMapHE * map)
 {
