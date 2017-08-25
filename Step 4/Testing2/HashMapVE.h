@@ -7,17 +7,6 @@ using namespace std;
 
 class HashMapVE : public HashMapAbs
 {
-private:
-	ValueEntry **table;
-	bool empty = true;
-	int tableSize = 0;
-	int LIMIT = 0;
-
-	void initialize(int tbSz);
-	void handleCollision(ValueEntry * current, string key);
-	void reHashMap();
-	
-
 public:
 	HashMapVE(int tbSz);
 
@@ -30,5 +19,16 @@ public:
 	bool isEmpty();
 
 	~HashMapVE();
+
+private:
+	ValueEntry **table;
+	bool empty = true;
+	int tableSize = 0;
+	int LIMIT = 0;
+
+	void initialize(int tbSz);
+	void handleCollision(ValueEntry * current, string key);
+	void reHashMap();
+
 };
 

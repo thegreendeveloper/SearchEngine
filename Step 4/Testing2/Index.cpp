@@ -49,30 +49,66 @@ void Index::Search(string searchstring) {
 
 void Index::initializeSpellChecker(string searchString) {
 	SpellChecker check(searchString, map);
-	HashMapVE * resultSet = check.Levenshtein(false);
-	HashMapVE * resultSet2 = check.Levenshtein(true);
 
+	//// EDIT DISTANCE ////////////
+	/*HashMapVE * resultSet = check.Levenshtein(false);	
 	cout << "Did you mean: " << endl;
 	vector<string> * result = Utilities::sort(resultSet);
 	vector<string> * result2 = Utilities::sort(resultSet2);
 	
 	for (vector<string>::iterator it = result->begin(); it != result->end(); it++) {
-		cout << *it << endl;
-		
+		cout << *it << endl;	
 	}
+	delete resultSet;
+	delete result;
 	cout << endl;
 
+	////// DAMERAU LEVENSTEIN DISTANCE ///////////////
+	HashMapVE * resultSet2 = check.Levenshtein(true);
 	for (vector<string>::iterator it2 = result2->begin(); it2 != result2->end(); it2++) {
 		cout << *it2 << endl;
 
-	}
-
-	//TODO :  hashmaps are not being deleted decently! Memory increases
-	delete resultSet; 
+	}	
 	delete resultSet2;
-	delete result;
-	delete result2;
+	delete result2;*/
+
+	////////////// THREEEE GRAMS /////////////////////
+	/*Preprossesing : breaking entire dictionary into threegrams*/
+	HashMapHE * dictionaryThreeGrams = check.ThreeGram();
 	
+	/*PostProcessing : breaking input intro threegrams, iterating over each three grams 
+	doing similarity scores for each of the dictionary words*/
+	vector<string> * wordGrams = new vector<string>();
+	check.ThreeGramSplit(searchString,wordGrams);
+	HashMapVE * wordOcc = new HashMapVE(0);
+
+	for (vector<string>::iterator it = wordGrams->begin(); it != wordGrams->end(); it++) {
+		HashEntry * current = dictionaryThreeGrams->get(*it);
+		if (current != NULL) {
+			/*Three grams exist in our dictionary. For each word the three gram exist in, 
+			we want to add it to our hashmapVE and increment the counter*/
+			HashMapVE * currentWords = current->getValueEntries();
+			for (int i = 0; i < currentWords->getTableSize(); i++) {
+				ValueEntry * current = currentWords->getTable()[i];
+				while (current != NULL) {
+					wordOcc->put(current->getKey());
+
+					if (current->getNext() == NULL)
+						break;
+					current = current->getNext();
+				}
+			}
+		}
+	}
+	vector<string> * result3 = Utilities::sort(wordOcc);
+	for (vector<string>::iterator it = result3->begin(); it != result3->end(); it++) {
+		cout << *it << endl;
+
+	}
+	delete result3;
+	delete wordOcc;
+	delete wordGrams;
+	delete dictionaryThreeGrams;
 }
 
 void Index::intersectSearchstring(vector<string> searchStrings) {

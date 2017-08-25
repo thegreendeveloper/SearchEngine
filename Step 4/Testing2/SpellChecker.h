@@ -13,7 +13,8 @@ public:
 	~SpellChecker();
 
 	HashMapVE * Levenshtein(bool damerau);
-	HashMapHE * NGrams(int n);
+	HashMapHE * ThreeGram();
+	void ThreeGramSplit(string word, vector<string> * stringVector);
 
 private:
 	HashMapHE * map;
