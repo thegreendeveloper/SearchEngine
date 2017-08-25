@@ -50,15 +50,15 @@ void Index::Search(string searchstring) {
 void Index::initializeSpellChecker(string searchString) {
 	SpellChecker check(searchString, map);
 	HashMapVE * resultSet = check.Levenshtein(false);
-	//TODO : This does not work correct.
 	HashMapVE * resultSet2 = check.Levenshtein(true);
 
 	cout << "Did you mean: " << endl;
 	vector<string> * result = Utilities::sort(resultSet);
-	vector<string> * result2 = Utilities::sort(resultSet);
+	vector<string> * result2 = Utilities::sort(resultSet2);
 	
 	for (vector<string>::iterator it = result->begin(); it != result->end(); it++) {
 		cout << *it << endl;
+		
 	}
 	cout << endl;
 

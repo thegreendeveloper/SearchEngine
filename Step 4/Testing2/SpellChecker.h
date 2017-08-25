@@ -13,6 +13,7 @@ public:
 	~SpellChecker();
 
 	HashMapVE * Levenshtein(bool damerau);
+	HashMapHE * NGrams(int n);
 
 private:
 	HashMapHE * map;
