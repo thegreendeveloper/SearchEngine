@@ -72,14 +72,15 @@ void Index::initializeSpellChecker(string searchString) {
 	delete resultSet2;
 	delete result2;*/
 
-	////////////// THREEEE GRAMS /////////////////////
+	///////////////////// THREEEE GRAMS /////////////////////
+	//TODO : Serious memory leak. Output only 10 etc. 
 	/*Preprossesing : breaking entire dictionary into threegrams*/
 	HashMapHE * dictionaryThreeGrams = check.ThreeGram();
 	
-	/*PostProcessing : breaking input intro threegrams, iterating over each three grams 
-	doing similarity scores for each of the dictionary words*/
+	/*Creating threegrams of the input*/
 	vector<string> * wordGrams = new vector<string>();
 	check.ThreeGramSplit(searchString,wordGrams);
+	
 	HashMapVE * wordOcc = new HashMapVE(0);
 
 	for (vector<string>::iterator it = wordGrams->begin(); it != wordGrams->end(); it++) {

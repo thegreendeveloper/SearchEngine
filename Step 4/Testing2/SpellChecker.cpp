@@ -124,27 +124,28 @@ int SpellChecker::LevenshteinDamerauDistance(string s, int n, string t, int m) {
 HashMapHE * SpellChecker::ThreeGram() {
 	HashMapHE * ngramsDataSet = new HashMapHE(0);
 	for (int i = 0; i < map->getTableSize(); i++) {
-		if (map->getTable()[i] != NULL) {
-			HashEntry * current = map->getTable()[i];
-			while (current != NULL) {
-				string word = current->getKey();
 
-				//Split string into n-grams 
-				vector<string> * threeGramsWord = new vector<string>();
-				ThreeGramSplit(word, threeGramsWord);
-				//for each three grams in the vector insert three gram into ngramsDataSet and insert the word as well.
-				for (vector<string>::iterator it = threeGramsWord->begin(); it != threeGramsWord->end(); it++) {
-					ngramsDataSet->put(*it, word);
-				}
+		HashEntry * currentHashEntry = map->getTable()[i];
+		if (currentHashEntry == NULL)
+			continue;
 
-				delete threeGramsWord;
+		while (currentHashEntry != NULL) {
+			string word = currentHashEntry->getKey();
 
-				if (current->getNext() == NULL)
-					break;
-				current = current->getNext();
+			//Split string into n-grams 
+			vector<string> * threeGramsWord = new vector<string>();
+			ThreeGramSplit(word, threeGramsWord);
+			//for each three grams in the vector insert three gram into ngramsDataSet and insert the word as well.
+			for (vector<string>::iterator it = threeGramsWord->begin(); it != threeGramsWord->end(); it++) {
+				ngramsDataSet->put(*it, word);
 			}
-		}
 
+			delete threeGramsWord;
+
+			if (currentHashEntry->getNext() == NULL)
+				break;
+			currentHashEntry = currentHashEntry->getNext();
+		}
 	}
 	return ngramsDataSet;
 }
@@ -155,10 +156,15 @@ void SpellChecker::ThreeGramSplit(string word, vector<string> * stringVector) {
 	else {
 		for (int i = 0; i < word.length(); i++) {
 			if (i == 0) {
-				stringVector->push_back(word.substr(i, 1));
-				stringVector->push_back(word.substr(i, 2));
-			}
-			stringVector->push_back(word.substr(i, 3));
+				stringVector->push_back("$$"+word.substr(i, 1));
+				stringVector->push_back("$"+word.substr(i, 2));
+				stringVector->push_back(word.substr(i, 3));
+			}else if(i == word.length()-2)
+				stringVector->push_back(word.substr(i, 2)+"$");
+			else if(i == word.length()-1)
+				stringVector->push_back(word.substr(i, 1) + "$$");
+			else
+				stringVector->push_back(word.substr(i, 3));
 		}
 	}
 }
