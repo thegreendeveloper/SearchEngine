@@ -60,7 +60,7 @@ void HashMapHE::put(string key, string dt) {
 
 	/*If the number of entries have exceeded our density limit, we rehash.*/
 	if ((tableSize - NO_OF_ENTRIES) <= LIMIT) {
-		cout << "Rehashing ....... " << endl;
+		//cout << "Rehashing ....... " << endl;
 		reHashMap();
 	}
 }

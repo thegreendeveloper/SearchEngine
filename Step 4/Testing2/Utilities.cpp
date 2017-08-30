@@ -92,8 +92,7 @@ int Utilities::getLineCount(string fileName) {
 	return counter;
 }
 
-
-vector<string> * Utilities::sort(HashMapVE * entries)
+void Utilities::sort(vector<string> &resultSet, HashMapVE * entries)
 {
 	/*Initializing*/
 	int arrSize = entries->NO_OF_ENTRIES;
@@ -129,14 +128,11 @@ vector<string> * Utilities::sort(HashMapVE * entries)
 	for (int exp = 1; maxVal / exp > 0; exp *= 10)
 		countSort(arrOcc, arrKey, arrSize, exp);
 
-	vector<string> * result = new vector<string>();
 	for (int i = 0; i < entries->NO_OF_ENTRIES; i++)
-		result->push_back(arrKey[i] + " : " + to_string(arrOcc[i]));
+		resultSet.push_back(arrKey[i] + " : " + to_string(arrOcc[i]));
 
 	delete[] arrOcc;
 	delete[] arrKey;
-
-	return result;
 }
 
 

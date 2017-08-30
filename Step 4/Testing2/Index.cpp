@@ -1,6 +1,7 @@
 #include "Index.h"
 #include "SpellChecker.h"
 #include "Utilities.h"
+#include <string>
 
 Index::Index(HashMapHE * map)
 {
@@ -25,8 +26,9 @@ void Index::Search(string searchstring) {
 			cout << searchstring << " exists in the documents: " << endl;
 			HashMapVE * entries = result->getValueEntries();
 			/*raddix sort result*/
-			vector<string> * result = Utilities::sort(entries);
-			for (vector<string>::iterator it = result->begin(); it != result->end();it++) {
+			vector<string> result;
+			Utilities::sort(result,entries);
+			for (vector<string>::iterator it = result.begin(); it != result.end();it++) {
 				cout << *it << endl;
 			}
 			return;
@@ -49,66 +51,60 @@ void Index::Search(string searchstring) {
 
 void Index::initializeSpellChecker(string searchString) {
 	SpellChecker check(searchString, map);
+	vector<string> result, result2;
+	cout << "Did you mean: " << endl;
+	cout << "Levenshtein\t\tDamerau" << endl;
 
 	//// EDIT DISTANCE ////////////
-	/*HashMapVE * resultSet = check.Levenshtein(false);	
-	cout << "Did you mean: " << endl;
-	vector<string> * result = Utilities::sort(resultSet);
-	vector<string> * result2 = Utilities::sort(resultSet2);
+	HashMapVE * resultSet = check.Levenshtein(false);		
+	Utilities::sort(result,resultSet);
 	
-	for (vector<string>::iterator it = result->begin(); it != result->end(); it++) {
-		cout << *it << endl;	
-	}
-	delete resultSet;
-	delete result;
-	cout << endl;
-
-	////// DAMERAU LEVENSTEIN DISTANCE ///////////////
+	//// DAMERAU LEVENSTEIN DISTANCE ///////////////
 	HashMapVE * resultSet2 = check.Levenshtein(true);
-	for (vector<string>::iterator it2 = result2->begin(); it2 != result2->end(); it2++) {
-		cout << *it2 << endl;
+	Utilities::sort(result2,resultSet2);
 
+	int size = result.size()  > result2.size() ? result.size() : result2.size();
+	for (int i = 0; i < size; i++) {
+		if (i < result.size())
+			cout << result[i];
+		cout << "\t\t";
+		if (i < result2.size())
+			cout << result2[i];
+		cout << endl;
 	}	
+	cout << endl;
+	
+	//delete resultSet;	
 	delete resultSet2;
-	delete result2;*/
 
-	///////////////////// THREEEE GRAMS /////////////////////
-	//TODO : Serious memory leak. Output only 10 etc. 
-	/*Preprossesing : breaking entire dictionary into threegrams*/
-	HashMapHE * dictionaryThreeGrams = check.ThreeGram();
+
+	////////////////// THREEEE GRAMS /////////////////////
+	///*Preprossesing : breaking entire dictionary into threegrams. We create an inverted file of trigrams. */
+	cout << "Creating Three Gramm inverted file of entire dictionary (preprossesing)..." << endl;
+	HashMapHE * dictionaryThreeGrams = check.CreateThreeGramInverted();
 	
-	/*Creating threegrams of the input*/
-	vector<string> * wordGrams = new vector<string>();
-	check.ThreeGramSplit(searchString,wordGrams);
+	///*PostProcessing : breaking input intro threegrams, iterating over each three grams 
+	//doing similarity scores for each of the dictionary words*/
+	vector<string> * inputTrigram = new vector<string>();
+	check.ThreeGramSplit(searchString,inputTrigram);
+	HashMapVE * resultSet3 = new HashMapVE(0);
+
+	// Applying trigram similarity meassure
+	check.TrigramSimilarity(inputTrigram, dictionaryThreeGrams, resultSet3);
 	
-	HashMapVE * wordOcc = new HashMapVE(0);
-
-	for (vector<string>::iterator it = wordGrams->begin(); it != wordGrams->end(); it++) {
-		HashEntry * current = dictionaryThreeGrams->get(*it);
-		if (current != NULL) {
-			/*Three grams exist in our dictionary. For each word the three gram exist in, 
-			we want to add it to our hashmapVE and increment the counter*/
-			HashMapVE * currentWords = current->getValueEntries();
-			for (int i = 0; i < currentWords->getTableSize(); i++) {
-				ValueEntry * current = currentWords->getTable()[i];
-				while (current != NULL) {
-					wordOcc->put(current->getKey());
-
-					if (current->getNext() == NULL)
-						break;
-					current = current->getNext();
-				}
-			}
-		}
-	}
-	vector<string> * result3 = Utilities::sort(wordOcc);
-	for (vector<string>::iterator it = result3->begin(); it != result3->end(); it++) {
+	cout << "Did you mean? (trigram similarity meassure)" << endl;
+	vector<string> result3;
+	Utilities::sort(result3, resultSet3);
+	int counter = 0;
+	for (vector<string>::reverse_iterator it = result3.rbegin(); it != result3.rend(); it++) {
 		cout << *it << endl;
-
+		if (counter > 10)
+			break;
+		counter++;
 	}
-	delete result3;
-	delete wordOcc;
-	delete wordGrams;
+
+	delete resultSet3;
+	delete inputTrigram;
 	delete dictionaryThreeGrams;
 }
 
@@ -143,8 +139,9 @@ void Index::intersectSearchstring(vector<string> searchStrings) {
 	/*output the intersected documents*/
 	if (!documents->isEmpty()) {
 		cout << "The words intersect in the documents: " << endl;
-		vector<string> * result = Utilities::sort(documents);
-		for (vector<string>::iterator it = result->begin(); it != result->end(); it++) {
+		vector<string> result;
+		Utilities::sort(result,documents);
+		for (vector<string>::iterator it = result.begin(); it != result.end(); it++) {
 			cout << *it << endl;
 		}
 	}
