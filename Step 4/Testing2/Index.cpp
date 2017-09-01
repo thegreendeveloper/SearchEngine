@@ -86,7 +86,7 @@ void Index::initializeSpellChecker(string searchString) {
 	///*PostProcessing : breaking input intro threegrams, iterating over each three grams 
 	//doing similarity scores for each of the dictionary words*/
 	vector<string> * inputTrigram = new vector<string>();
-	check.ThreeGramSplit(searchString,inputTrigram);
+	check.NGramSplit(3, searchString,inputTrigram);
 	HashMapVE * resultSet3 = new HashMapVE(0);
 
 	// Applying trigram similarity meassure

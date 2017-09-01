@@ -17,6 +17,7 @@ HashMapVE * SpellChecker::Faroos() {
 //TODO :	Generate terms with edit distance <= 2 for input word 
 //TODO :	Do constant lookups  for each generated input-term. Log the words connected to the term and return a list of 
 //			the most popular words in the dictionary (the ones that have the most terms in common. )
+	return NULL;
 }
 
 
@@ -141,7 +142,8 @@ HashMapHE * SpellChecker::CreateThreeGramInverted() {
 			
 			//Split string into n-grams 
 			vector<string> * threeGramsWord = new vector<string>();
-			ThreeGramSplit(currentHashEntry->getKey(), threeGramsWord);
+			NGramSplit(3, currentHashEntry->getKey(), threeGramsWord);
+
 
 			//for each three grams in the vector insert three gram into ngramsDataSet and insert the word as well.
 			for (vector<string>::iterator it = threeGramsWord->begin(); it != threeGramsWord->end(); it++) {
@@ -180,22 +182,37 @@ void SpellChecker::TrigramSimilarity(vector<string> * inputTrigram, HashMapHE * 
 	}
 
 }
-void SpellChecker::ThreeGramSplit(string word, vector<string> * stringVector) {
-	if (word.length() <= 3)
-		stringVector->push_back(word);
-	else {
-		for (int i = 0; i < word.length(); i++) {
-			if (i == 0) {
-				stringVector->push_back("$$"+word.substr(i, 1));
-				stringVector->push_back("$"+word.substr(i, 2));
-				stringVector->push_back(word.substr(i, 3));
-			}else if(i == word.length()-2)
-				stringVector->push_back(word.substr(i, 2)+"$");
-			else if(i == word.length()-1)
-				stringVector->push_back(word.substr(i, 1) + "$$");
-			else
-				stringVector->push_back(word.substr(i, 3));
+
+/*Overlapping ngram split. Spaces are filled out with $
+Performance : 
+word length 4, iteration : 200000, 18 sec.
+word length 16, iteration : 200000, 38 sec. */
+void SpellChecker::NGramSplit(int ngram, string word, vector<string> * stringVector) {
+
+	for (int index = 0; index < word.length(); index++) {
+		if (index == word.length())
+			return;
+
+		if (index - ngram + 1 < 0) {
+			string concatinated;
+			int upper = (ngram - index - 1);
+			for (int i = 0; i < upper; i++)
+				concatinated += "$";
+			concatinated += word.substr(0, index + 1);
+			stringVector->push_back(concatinated);
 		}
+
+		if (index + ngram > word.length()) {
+			string concatinated = word.substr(index, ngram);
+			int upper = index + ngram - word.length();
+			for (int i = 0; i < upper; i++) {
+				concatinated += "$";
+			}
+			stringVector->push_back(concatinated);
+		}
+
+		if (index + ngram <= word.length())
+			stringVector->push_back(word.substr(index, ngram));
 	}
 }
 SpellChecker::~SpellChecker()
