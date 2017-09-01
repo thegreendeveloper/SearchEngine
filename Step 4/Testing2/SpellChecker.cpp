@@ -11,6 +11,14 @@ SpellChecker::SpellChecker(string input, HashMapHE * map)
 
 }
 
+HashMapVE * SpellChecker::Faroos() {
+//TODO :	Generate terms with edit distance <= 2, deletes only, for each word in the dictionary. 
+//			Add them to a copy of the origianl dictionary
+//TODO :	Generate terms with edit distance <= 2 for input word 
+//TODO :	Do constant lookups  for each generated input-term. Log the words connected to the term and return a list of 
+//			the most popular words in the dictionary (the ones that have the most terms in common. )
+}
+
 
 HashMapVE *  SpellChecker::Levenshtein(bool damerau) {
 	HashMapVE * resultSet = new HashMapVE(0);

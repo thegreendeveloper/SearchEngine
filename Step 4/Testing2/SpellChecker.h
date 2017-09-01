@@ -14,6 +14,7 @@ public:
 
 	HashMapVE * Levenshtein(bool damerau);
 	HashMapHE * CreateThreeGramInverted();
+	HashMapVE * Faroos();
 	void TrigramSimilarity(vector<string> * inputTrigram, HashMapHE * invertedTrigram, HashMapVE * resultSet);
 	void ThreeGramSplit(string word, vector<string> * stringVector);
 
