@@ -18,6 +18,8 @@ public:
 
 	void TrigramSimilarity(vector<string> * inputTrigram, HashMapHE * invertedTrigram, HashMapVE * resultSet);
 	void NGramSplit(int ngram, string word, vector<string> * stringVector);
+
+	static void SubstringDeletion(int k, string word, vector<string> * stringVector);
 private:
 	HashMapHE * map;
 	

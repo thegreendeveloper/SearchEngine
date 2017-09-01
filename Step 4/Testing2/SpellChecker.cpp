@@ -12,11 +12,11 @@ SpellChecker::SpellChecker(string input, HashMapHE * map)
 }
 
 HashMapVE * SpellChecker::Faroos() {
-//TODO :	Generate terms with edit distance <= 2, deletes only, for each word in the dictionary. 
-//			Add them to a copy of the origianl dictionary
-//TODO :	Generate terms with edit distance <= 2 for input word 
-//TODO :	Do constant lookups  for each generated input-term. Log the words connected to the term and return a list of 
-//			the most popular words in the dictionary (the ones that have the most terms in common. )
+	//TODO :	Generate terms with edit distance <= 2, deletes only, for each word in the dictionary. 
+	//			Add them to a copy of the origianl dictionary
+	//TODO :	Generate terms with edit distance <= 2 for input word 
+	//TODO :	Do constant lookups  for each generated input-term. Log the words connected to the term and return a list of 
+	//			the most popular words in the dictionary (the ones that have the most terms in common. )
 	return NULL;
 }
 
@@ -28,9 +28,9 @@ HashMapVE *  SpellChecker::Levenshtein(bool damerau) {
 	for (int i = 0; i < map->getTableSize(); i++) {
 		if (map->getTable()[i] != NULL) {
 			string word = map->getTable()[i]->getKey();
-	
+
 			if (damerau)
-				distance = LevenshteinDamerauDistance(input, input.length(), word, word.length());
+				distance = LevenshteinDamerauDistance(input, input.length(), word, word.length()); //TRUE damerau distance
 			else
 				distance = LevenshteinDistance(input, input.length(), word, word.length());
 
@@ -113,7 +113,7 @@ int SpellChecker::LevenshteinDamerauDistance(string s, int n, string t, int m) {
 			else
 				cost = 1;
 
-			current[i] = min(current[i-1]+1, min(previous[i-1]+cost, previous[i]+1));
+			current[i] = min(current[i - 1] + 1, min(previous[i - 1] + cost, previous[i] + 1));
 
 			if ((i > 1 && j > 1) && (s[i - 1] == t[j - 2]) && (s[i - 2] == t[j - 1])) /*Damerau specific : transposition part*/
 				current[i] = min(current[i], thirdPrevious[i - 2] + cost);
@@ -127,7 +127,7 @@ int SpellChecker::LevenshteinDamerauDistance(string s, int n, string t, int m) {
 	cost = current[n];
 
 	delete[] current;
-	delete[] previous; 
+	delete[] previous;
 	delete[] thirdPrevious;
 
 	return cost;
@@ -137,9 +137,9 @@ HashMapHE * SpellChecker::CreateThreeGramInverted() {
 	HashMapHE * ngramsDataSet = new HashMapHE(0);
 	for (int i = 0; i < map->getTableSize(); i++) {
 
-		HashEntry * currentHashEntry = map->getTable()[i];		
+		HashEntry * currentHashEntry = map->getTable()[i];
 		while (currentHashEntry != NULL) {
-			
+
 			//Split string into n-grams 
 			vector<string> * threeGramsWord = new vector<string>();
 			NGramSplit(3, currentHashEntry->getKey(), threeGramsWord);
@@ -184,7 +184,7 @@ void SpellChecker::TrigramSimilarity(vector<string> * inputTrigram, HashMapHE * 
 }
 
 /*Overlapping ngram split. Spaces are filled out with $
-Performance : 
+Performance :
 word length 4, iteration : 200000, 18 sec.
 word length 16, iteration : 200000, 38 sec. */
 void SpellChecker::NGramSplit(int ngram, string word, vector<string> * stringVector) {
@@ -213,6 +213,22 @@ void SpellChecker::NGramSplit(int ngram, string word, vector<string> * stringVec
 
 		if (index + ngram <= word.length())
 			stringVector->push_back(word.substr(index, ngram));
+	}
+}
+
+void SpellChecker::SubstringDeletion(int k, string word, vector<string> * stringVector) {
+	for (int distance = 0; distance < word.length(); distance++) {
+		for (int i = 0; i < word.length(); i++) {
+			string temp = word;
+			if (distance != 0 && i + distance < word.length())
+				temp = temp.replace(i + distance, 1, "");
+			temp.replace(i, 1, "");
+
+			if (i + distance >= word.length())
+				break;
+
+			stringVector->push_back(temp);
+		}
 	}
 }
 SpellChecker::~SpellChecker()
