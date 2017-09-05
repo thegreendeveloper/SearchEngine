@@ -114,7 +114,7 @@
   <ItemGroup>
     <ClCompile Include="HashMapVE.cpp" />
     <ClCompile Include="Index.cpp" />
-    <ClCompile Include="RaddixSort.cpp" />
+    <ClCompile Include="SpellChecker.cpp" />
     <ClCompile Include="Utilities.cpp" />
     <ClCompile Include="ValueEntry.cpp" />
     <ClCompile Include="HashEntry.cpp" />
@@ -126,7 +126,7 @@
     <ClInclude Include="HashMapAbs.h" />
     <ClInclude Include="HashMapVE.h" />
     <ClInclude Include="Index.h" />
-    <ClInclude Include="RaddixSort.h" />
+    <ClInclude Include="SpellChecker.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="ValueEntry.h" />
     <ClInclude Include="HashEntry.h" />

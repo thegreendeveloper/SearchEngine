@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
 			results.clear();
 			SpellChecker::SubstringDeletion(2, current->getKey(), &results);
 			for (vector<string>::iterator it = results.begin(); it != results.end(); it++)
-				invertedSubStrings.put(*it,current->getKey());
+				invertedSubStrings.put(*it, current->getKey());
 		}
 	}
 	clock_t duration = clock() - start;

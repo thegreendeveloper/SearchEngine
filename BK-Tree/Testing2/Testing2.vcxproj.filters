@@ -17,9 +17,6 @@
     <ClCompile Include="HashEntry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HashFunctions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ValueEntry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -35,15 +32,12 @@
     <ClCompile Include="Index.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SpellChecker.cpp">
+    <ClCompile Include="BKTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HashEntry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HashFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ValueEntry.h">
@@ -64,7 +58,7 @@
     <ClInclude Include="Index.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SpellChecker.h">
+    <ClInclude Include="BKTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
