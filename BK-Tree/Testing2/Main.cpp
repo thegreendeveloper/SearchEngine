@@ -53,16 +53,31 @@ int main(int argc, char* argv[]) {
 	cout << endl;
 	cout << "Build tree duration : " << duration / CLOCKS_PER_SEC << "\n";
 
-	start = clock();
-	vector<pair<string,int>> * result = tree.Search("caq",1);
-	duration = clock() - start;
-	cout << endl;
-	cout << "Search time in tree : " << duration / CLOCKS_PER_SEC << "\n";
 
-	for (vector<pair<string, int>>::iterator it = result->begin(); it != result->end();it++ ) {
-		cout << it->first << " dist : "<< it->second<< endl;
-	}
+	while (true) {
+			cout << "Input search string. Type 'exit' to stop. Type 'p' to print dictionary.\n";
+			string searchstring;
+			getline(cin, searchstring);
 
+			if (searchstring == "exit")
+				break;
+			if (searchstring == "p") {
+				map.print();
+				continue;
+			}
+
+			start = clock();
+			vector<pair<string, int>> * result = tree.Search(searchstring, 1);
+			duration = clock() - start;
+			cout << endl;
+			cout << "Search time in tree : " << duration / CLOCKS_PER_SEC << "\n";
+
+			for (vector<pair<string, int>>::iterator it = result->begin(); it != result->end(); it++) {
+				cout << it->first << " dist : " << it->second << endl;
+			}
+
+		}
+	
 	int i;
 	cin >> i;
 }
