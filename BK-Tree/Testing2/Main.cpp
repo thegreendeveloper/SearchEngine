@@ -15,6 +15,7 @@ int main(int argc, char* argv[]) {
 	}
 	
 
+	/*Filling out the tree with the wiki info*/
 	clock_t start = clock();
 	int first = 0;
 	for (int i = 0; i < map.getTableSize(); i++) {
@@ -36,21 +37,28 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
-	/*BKTree tree("some");
-	tree.Add("same");
-	tree.Add("soft");
-	tree.Add("salmon");
-	tree.Add("soda");
-	tree.Add("mole");
+	//BKTree tree("book");
+	//tree.Add("books");
+	//tree.Add("cake");
+	//tree.Add("boo");
+	//tree.Add("cape");
+	//tree.Add("cart");
+	//tree.Add("boon");
+	//tree.Add("cook");
 
-	tree.Print();
-	*/
+	//tree.Print();
+	
 
 	clock_t duration = clock() - start;
 	cout << endl;
 	cout << "Build tree duration : " << duration / CLOCKS_PER_SEC << "\n";
 
-	vector<pair<string,int>> * result = tree.Search("some",2);
+	start = clock();
+	vector<pair<string,int>> * result = tree.Search("caq",1);
+	duration = clock() - start;
+	cout << endl;
+	cout << "Search time in tree : " << duration / CLOCKS_PER_SEC << "\n";
+
 	for (vector<pair<string, int>>::iterator it = result->begin(); it != result->end();it++ ) {
 		cout << it->first << " dist : "<< it->second<< endl;
 	}

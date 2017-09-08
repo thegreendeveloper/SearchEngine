@@ -31,6 +31,7 @@ void BKTree::Add(string word) {
 	AddChildNode(i->second, word);
 }
 
+
 void BKTree::AddChildNode(Node * current, string word) {
 	int distance = LevenshteinDistance(current->word, word);
 
@@ -53,39 +54,31 @@ void BKTree::Print() {
 	cout << endl;
 	for (unordered_map<int, Node *>::iterator it = _root->children->begin(); it != _root->children->end(); it++)
 		it->second->Print();
-
 }
+
 vector<pair<string,int>> * BKTree::Search(string searchString, int tolerance) {
 	vector<pair<string, int>> * resultSet = new vector<pair<string, int>>();
-
-	int distance = LevenshteinDistance(_root->word, searchString), upper = distance + tolerance, lower = distance - tolerance;
-	if (distance <= tolerance)
-		resultSet->push_back(make_pair(_root->word,distance));
-
-	for (unordered_map<int, Node *>::iterator it = _root->children->begin(); it != _root->children->end();it++) {
-		int childDist = LevenshteinDistance(it->second->word, searchString);
-		//If the distance is smaller than our tolerance then we add the node
-		if (childDist <= tolerance)
-			resultSet->push_back(make_pair(it->second->word,childDist));
-		//If the distance is within our boundary, we take a look at the child nodes. 
-		if (childDist >= lower && childDist <= upper)
-			RecursiveSearch(searchString, tolerance, it->second, resultSet);
-	}
 	
+	RecursiveSearch(searchString, tolerance, _root, resultSet);
+
  	return resultSet;
 }
+
 
 void BKTree::RecursiveSearch(string searchString, int tolerance, Node * current, vector<pair<string, int>> * resultSet) {
 	int distance = LevenshteinDistance(current->word, searchString), upper = distance + tolerance, lower = distance - tolerance;
 
-	for (unordered_map<int, Node *>::iterator it = current->children->begin(); it != current->children->end(); it++) {
-		int childDist = LevenshteinDistance(it->second->word, searchString);	
-		//If the distance is smaller than our tolerance then we add the node
-		if(childDist <= tolerance)
-			resultSet->push_back(make_pair(it->second->word,childDist));
-		//If the distance is within our boundary, we take a look at the child nodes. 
-		if (childDist >= lower && childDist <= upper)
-			RecursiveSearch(searchString,tolerance, it->second, resultSet);
+	if (distance <= tolerance)
+		resultSet->push_back(make_pair(current->word, distance));
+
+	for (int score = lower; score <= upper; score++) {
+		if (score < 0)
+			continue;
+
+		unordered_map<int, Node *>::iterator it = current->children->find(score);
+		if(it != current->children->end()){
+			RecursiveSearch(searchString, tolerance, it->second, resultSet);
+		}
 	}
 }
 

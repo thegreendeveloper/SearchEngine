@@ -39,20 +39,25 @@ int main(int argc, char* argv[]) {
 		HashEntry * current = map.getTable()[i];
 		if (current != NULL) {
 			results.clear();
-			SpellChecker::SubstringDeletion(2, current->getKey(), &results);
+			SpellChecker::SubstringDeletion(3, current->getKey(), &results);
 			for (vector<string>::iterator it = results.begin(); it != results.end(); it++)
 				invertedSubStrings.put(*it, current->getKey());
 		}
 	}
 	clock_t duration = clock() - start;
 	cout << endl;
-	cout << "Duration : " << duration / CLOCKS_PER_SEC << "\n";
+	cout << "Duration building the suffix inverted file : " << duration / CLOCKS_PER_SEC << "\n";
 	cout << "entries : " << invertedSubStrings.NO_OF_ENTRIES<< endl;
 
 
-	word = "informes";
+	start = clock();
+	word = "inehritad";
 	results.clear();
-	SpellChecker::SubstringDeletion(2, word, &results);
+	SpellChecker::SubstringDeletion(3, word, &results);
+	duration = clock() - start;
+	cout << endl;
+	cout << "Duration searching the inverted file : " << duration / CLOCKS_PER_SEC << "\n";
+	
 	for (vector<string>::iterator it = results.begin(); it != results.end(); it++) {
 		HashEntry * current = invertedSubStrings.get(*it);
 		if (current != NULL) {
