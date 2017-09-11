@@ -29,7 +29,7 @@
     <ClCompile Include="Utilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TrigramSimilarityMeasure.cpp">
+    <ClCompile Include="FastSS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -52,7 +52,7 @@
     <ClInclude Include="Utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TrigramSimilarityMeasure.h">
+    <ClInclude Include="FastSS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
