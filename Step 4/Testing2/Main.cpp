@@ -13,26 +13,26 @@ int main(int argc, char* argv[]) {
 	if (Utilities::ImportFile(filename, &map)) {
 		Index index(&map);
 
-	//	while (true) {
-	//		cout << "Input search string. Type 'exit' to stop. Type 'p' to print dictionary.\n";
-	//		string searchstring;
-	//		getline(cin, searchstring);
+		while (true) {
+			cout << "input search string. type 'exit' to stop. type 'p' to print dictionary.\n";
+			string searchstring;
+			getline(cin, searchstring);
 
-	//		if (searchstring == "exit")
-	//			break;
-	//		if (searchstring == "p") {
-	//			map.print();
-	//			continue;
-	//		}
-	//		index.Search(searchstring);
-	//	}
+			if (searchstring == "exit")
+				break;
+			if (searchstring == "p") {
+				map.print();
+				continue;
+			}
+			index.Search(searchstring);
+		}
 	/*}
 	else {
 		int i;
 		cin >> i;*/
 	}
 
-	clock_t start = clock();
+	/*clock_t start = clock();
 	HashMapHE invertedSubStrings(0);
 	vector<string> results;
 	for (int i = 0; i < map.getTableSize(); i++) {
@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
 			cout << *it << " existed" << endl;
 			current->getValueEntries()->print();
 		}
-	}
+	}*/
 
 	int i;
 	cin >> i;

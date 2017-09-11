@@ -53,29 +53,29 @@ void Index::initializeSpellChecker(string searchString) {
 	SpellChecker check(searchString, map);
 	vector<string> result, result2;
 	cout << "Did you mean: " << endl;
-	cout << "Levenshtein\t\tDamerau" << endl;
+	//cout << "Levenshtein\t\tDamerau" << endl;
 
-	//// EDIT DISTANCE ////////////
-	HashMapVE * resultSet = check.Levenshtein(false);		
-	Utilities::sort(result,resultSet);
-	
-	//// DAMERAU LEVENSTEIN DISTANCE ///////////////
-	HashMapVE * resultSet2 = check.Levenshtein(true);
-	Utilities::sort(result2,resultSet2);
+	////// EDIT DISTANCE ////////////
+	//HashMapVE * resultSet = check.Levenshtein(false);		
+	//Utilities::sort(result,resultSet);
+	//
+	////// DAMERAU LEVENSTEIN DISTANCE ///////////////
+	//HashMapVE * resultSet2 = check.Levenshtein(true);
+	//Utilities::sort(result2,resultSet2);
 
-	int size = result.size()  > result2.size() ? result.size() : result2.size();
-	for (int i = 0; i < size; i++) {
-		if (i < result.size())
-			cout << result[i];
-		cout << "\t\t";
-		if (i < result2.size())
-			cout << result2[i];
-		cout << endl;
-	}	
-	cout << endl;
-	
-	//delete resultSet;	
-	delete resultSet2;
+	//int size = result.size()  > result2.size() ? result.size() : result2.size();
+	//for (int i = 0; i < size; i++) {
+	//	if (i < result.size())
+	//		cout << result[i];
+	//	cout << "\t\t";
+	//	if (i < result2.size())
+	//		cout << result2[i];
+	//	cout << endl;
+	//}	
+	//cout << endl;
+	//
+	////delete resultSet;	
+	//delete resultSet2;
 
 
 	////////////////// THREEEE GRAMS /////////////////////
