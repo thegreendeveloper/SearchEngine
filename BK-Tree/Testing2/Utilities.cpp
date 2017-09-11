@@ -107,23 +107,20 @@ void Utilities::sort(vector<string> &resultSet, HashMapVE * entries)
 	///*inserting values; document name and occurence, into temp arrays*/
 	int counter = 0;
 	for (int i = 0; i < entries->getTableSize(); i++) {
-		if (entries->getTable()[i] != NULL) {
 
-			ValueEntry * current = entries->getTable()[i];
-			while (current != NULL) {
-				arrKey[counter] = current->getKey();
-				arrOcc[counter] = current->getOcc();
-				counter++;
+		ValueEntry * current = entries->getTable()[i];
+		while (current != NULL) {
+			arrKey[counter] = current->getKey();
+			arrOcc[counter] = current->getOcc();
+			counter++;
 
-				if (current->getNext() == NULL)
-					break;
-				current = current->getNext();
-			}
+			if (current->getNext() == NULL)
+				break;
+			current = current->getNext();
 		}
 	}
 
-	int maxVal = getMaximumValue(arrOcc);
-
+	int maxVal = getMaximumValue(arrOcc, entries->NO_OF_ENTRIES);
 	///*Implementation of countsort, which can be used in radix sort*/
 	for (int exp = 1; maxVal / exp > 0; exp *= 10)
 		countSort(arrOcc, arrKey, arrSize, exp);
@@ -177,9 +174,9 @@ void Utilities::countSort(int arrOcc[], string arrKey[], int n, int exp)
 
 }
 
-int Utilities::getMaximumValue(int arr[]) {
+int Utilities::getMaximumValue(int arr[], int NoOfEntries) {
 	int maxValue = arr[0];
-	for (int i = 1; i < sizeof(arr); i++) {
+	for (int i = 1; i < NoOfEntries; i++) {
 		if (maxValue < arr[i])
 			maxValue = arr[i];
 	}

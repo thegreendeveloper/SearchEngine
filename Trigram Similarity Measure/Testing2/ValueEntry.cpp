@@ -16,7 +16,7 @@ string ValueEntry::getKey() {
 	return key;
 }
 
-int ValueEntry::getOcc() {
+double ValueEntry::getOcc() {
 	return occ;
 }
 
@@ -24,7 +24,7 @@ void ValueEntry::setNext(ValueEntry * next) {
 	this->next = next;
 }
 
-void ValueEntry::setOcc(int newOcc) {
+void ValueEntry::setOcc(double newOcc) {
 	occ = newOcc;
 }
 ValueEntry::~ValueEntry()

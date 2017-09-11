@@ -20,7 +20,7 @@ public:
 	static void sort(vector<string> &resultSet,HashMapVE * entries);
 private:
 	static string RemoveSpecials(string str);
-	static int getMaximumValue(int arr[]);
+	static int getMaximumValue(int arr[], int NoOfEntries);
 	static void countSort(int arrOcc[], string arrKey[], int n, int exp);
 
 };

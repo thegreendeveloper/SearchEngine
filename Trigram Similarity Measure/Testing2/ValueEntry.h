@@ -13,13 +13,13 @@ public:
 
 	ValueEntry * getNext();
 	string getKey();
-	int getOcc();
+	double getOcc();
 
 	void setNext(ValueEntry * next);
-	void setOcc(int newOcc);
+	void setOcc(double newOcc);
 private:
 	string key;
 	ValueEntry * next;
-	int occ;
+	double occ;
 };
 #endif

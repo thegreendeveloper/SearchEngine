@@ -12,15 +12,14 @@
 
 using namespace std;
 
-class Utilities
-{
+class Utilities {
 public:
 	static bool ImportFile(string fileName, HashMapHE * map);
 	static int getLineCount(string fileName);
-	static void sort(vector<string> &resultSet,HashMapVE * entries);
+	static void sort(vector<string> &resultSet, HashMapVE * entries);
 private:
 	static string RemoveSpecials(string str);
-	static int getMaximumValue(int arr[]);
+	static int getMaximumValue(int arr[], int NoOfEntries);
 	static void countSort(int arrOcc[], string arrKey[], int n, int exp);
 
 };

@@ -11,6 +11,7 @@ TrigramSimilarityMeasure::TrigramSimilarityMeasure(HashMapHE * map)
 
 TrigramSimilarityMeasure::~TrigramSimilarityMeasure()
 {
+	delete dictionaryThreeGrams;
 }
 
 void TrigramSimilarityMeasure::Search(string input) {
@@ -23,12 +24,12 @@ void TrigramSimilarityMeasure::Search(string input) {
 
 	// Applying trigram similarity meassure
 	TrigramSimilarity(inputTrigram, dictionaryThreeGrams, resultSet);
-
+	
 	cout << "Did you mean?" << endl;
-	vector<string> result3;
-	Utilities::sort(result3, resultSet);
+	vector<string> result;
+	Utilities::sort(result, resultSet);
 	int counter = 0;
-	for (vector<string>::reverse_iterator it = result3.rbegin(); it != result3.rend(); it++) {
+	for (vector<string>::reverse_iterator it = result.rbegin(); it != result.rend(); it++) {
 		cout << *it << endl;
 		if (counter > 10)
 			break;
@@ -60,6 +61,20 @@ void TrigramSimilarityMeasure::TrigramSimilarity(vector<string> * inputTrigram, 
 		}
 	}
 
+	/*Calculated dice coefficient. Every word consist of n+2 trigrams. Multiplying by 100.*/
+	for (int i = 0; i < resultSet->getTableSize(); i++) {
+		ValueEntry * current = resultSet->getTable()[i];
+		while (current != NULL) {
+			/*if (current->getKey() == "words") {
+				cout << "occ " << current->getOcc()  << " "<<inputTrigram->size() << " " << current->getKey().length() + 2 << endl;
+				cout << (2 * current->getOcc()) / (inputTrigram->size() + current->getKey().length() + 2) * 100 << endl;
+			}*/
+			current->setOcc((2 * current->getOcc()) / (inputTrigram->size() + current->getKey().length() + 2)*100);
+			if (current->getNext() == NULL)
+				break;
+			current = current->getNext();
+		}
+	}
 }
 
 HashMapHE * TrigramSimilarityMeasure::CreateThreeGramInverted() {

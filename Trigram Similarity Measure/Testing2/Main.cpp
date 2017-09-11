@@ -1,7 +1,7 @@
 #include "HashEntry.h"
 #include "HashMapHE.h"
 #include "Utilities.h"
-
+#include "TrigramSimilarityMeasure.h"
 using namespace std;
 
 int main(int argc, char* argv[]) {
@@ -9,6 +9,8 @@ int main(int argc, char* argv[]) {
 
 	HashMapHE map(0);	
 	if (Utilities::ImportFile(filename, &map)) {		
+
+		TrigramSimilarityMeasure tsm(&map);
 
 		while (true) {
 			cout << "input search string. type 'exit' to stop. type 'p' to print dictionary.\n";
@@ -21,7 +23,8 @@ int main(int argc, char* argv[]) {
 				map.print();
 				continue;
 			}
-			//TRIGRAM similarity
+			
+			tsm.Search(searchstring);
 		}
 	}
 
