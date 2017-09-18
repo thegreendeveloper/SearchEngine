@@ -38,7 +38,6 @@ void TrigramSimilarityMeasure::Search(string input) {
 
 	delete resultSet;
 	delete inputTrigram;
-	delete dictionaryThreeGrams;
 }
 
 void TrigramSimilarityMeasure::TrigramSimilarity(vector<string> * inputTrigram, HashMapHE * invertedTrigram, HashMapVE * resultSet) {
