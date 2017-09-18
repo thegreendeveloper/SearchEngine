@@ -2,6 +2,8 @@
 #include "HashMapHE.h"
 #include "Utilities.h"
 #include "FastSS.h"
+#include "JSONImporter.h"
+#include "TextImporter.h"
 
 using namespace std;
 
@@ -9,7 +11,8 @@ int main(int argc, char* argv[]) {
 	string filename = argv[1], word, dt;
 
 	HashMapHE map(0);	
-	if (Utilities::ImportFile(filename, &map)) {
+	
+	JSONImporter import(filename, &map);
 
 		clock_t start = clock();
 		FastSS ss(&map, 2);
@@ -39,9 +42,6 @@ int main(int argc, char* argv[]) {
 
 			ss.Search(searchstring);
 		}
-	}
-
-	
 
 	int i;
 	cin >> i;
