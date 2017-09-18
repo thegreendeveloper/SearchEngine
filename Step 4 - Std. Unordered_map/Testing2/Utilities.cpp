@@ -2,8 +2,6 @@
 
 void Utilities::ImportFile(string fileName, unordered_map<string, unordered_map<string, string>> * map) {
 	clock_t start = clock();
-	FILE * file = NULL;
-	char buf[1024];
 
 	int totalLines = getLineCount(fileName), counter = 0;
 	int divisor = totalLines / 10;
@@ -30,7 +28,7 @@ void Utilities::ImportFile(string fileName, unordered_map<string, unordered_map<
 					dt = "";
 					continue;
 				}
-				unordered_map<string, unordered_map<string, string>>::const_iterator got = map->find(word);
+				auto got = map->find(word);
 				if (got == map->end()) {
 					/*not found*/
 					unordered_map<string, string > newMap; 
@@ -39,10 +37,10 @@ void Utilities::ImportFile(string fileName, unordered_map<string, unordered_map<
 				}
 				else {
 					/*word exist, we need to update the document map*/
-					/*this takes sooo long time and I wonder why*/
-					unordered_map<string, string> documents = got->second;
-					documents.insert(make_pair(dt,dt));
-					(*map)[word] = documents;
+					auto iter = map->at(word).find(dt);
+					if (iter == map->at(word).end()) {
+						map->at(word).insert(make_pair(dt, dt));
+					}
 				}
 			}
 		}
@@ -52,6 +50,7 @@ void Utilities::ImportFile(string fileName, unordered_map<string, unordered_map<
 		cout << "File could not be read" << endl;
 	}
 
+	myfile.close();
 	clock_t duration = clock() - start;
 	cout << "Duration : " << duration / CLOCKS_PER_SEC << "\n";
 	//cout << "Hashmap size: " << map->size << endl;

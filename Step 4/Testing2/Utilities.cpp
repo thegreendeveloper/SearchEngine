@@ -22,9 +22,10 @@ string Utilities::RemoveSpecials(string str)
 	return str;
 }
 
+
 bool Utilities::ImportFile(string fileName, HashMapHE * map) {
 	clock_t start = clock();
-	FILE * file = NULL;
+
 	char buf[1024];
 
 	int totalLines = getLineCount(fileName), counter = 0;

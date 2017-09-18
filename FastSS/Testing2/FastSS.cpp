@@ -2,9 +2,10 @@
 
 
 
-FastSS::FastSS(HashMapHE * map)
+FastSS::FastSS(HashMapHE * map, int k)
 {
 	this->map = map;
+	this->k = k;
 	initialize();
 }
 
@@ -14,6 +15,7 @@ FastSS::~FastSS()
 }
 
 void FastSS::initialize() {
+	cout << "creating the inverted file of deletions.." << endl;
 	invertedSubStrings = new HashMapHE(0);
 	vector<string> substrings;
 
@@ -21,7 +23,7 @@ void FastSS::initialize() {
 		HashEntry * current = map->getTable()[i];
 		if (current != NULL) {
 			substrings.clear();
-			SubstringDeletion(2, current->getKey(), &substrings);
+			SubstringDeletion(k, current->getKey(), &substrings);
 			for (vector<string>::iterator it = substrings.begin(); it != substrings.end(); it++)
 				invertedSubStrings->put(*it, current->getKey());
 		}
@@ -31,7 +33,7 @@ void FastSS::initialize() {
 
 void FastSS::Search(string input) { //TODO : Not correct
 	vector<string> results;
-	SubstringDeletion(2, input, &results);
+	SubstringDeletion(k, input, &results);
 
 	for (vector<string>::iterator it = results.begin(); it != results.end(); it++) {
 		HashEntry * current = invertedSubStrings->get(*it);

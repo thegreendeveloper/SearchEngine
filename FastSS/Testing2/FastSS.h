@@ -4,7 +4,7 @@
 
 class FastSS {
 public:
-	FastSS(HashMapHE * map);
+	FastSS(HashMapHE * map, int k);
 	~FastSS();
 
 	void Search(string input);
@@ -14,5 +14,6 @@ private:
 
 	HashMapHE * map;
 	HashMapHE * invertedSubStrings;
+	int k;
 };
 

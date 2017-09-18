@@ -1,7 +1,8 @@
 #include "HashEntry.h"
 #include "HashMapHE.h"
-#include "Utilities.h"
 #include "BKTree.h"
+#include "JSONImporter.h"
+#include "TextImporter.h"
 
 using namespace std;
 
@@ -9,7 +10,9 @@ int main(int argc, char* argv[]) {
 	string filename = argv[1], word, dt;
 
 	HashMapHE map(0);	
-	if (Utilities::ImportFile(filename, &map)) {
+	//JSONImporter import(filename, &map);
+	TextImporter import(filename, &map);
+	cout << "json imp size : " << map.NO_OF_ENTRIES << endl;
 
 
 		//Filling out the tree with the wiki info*/
@@ -34,15 +37,15 @@ int main(int argc, char* argv[]) {
 			}
 		}
 
-		/*BKTree tree("shame");
-		tree.Add("flame");
-		tree.Add("home");
-		tree.Add("ethereal");
-		tree.Add("night");
-		tree.Add("knight");
-		tree.Add("scam");
-		tree.Add("blame");
-		tree.Print();*/
+		///*BKTree tree("shame");
+		//tree.Add("flame");
+		//tree.Add("home");
+		//tree.Add("ethereal");
+		//tree.Add("night");
+		//tree.Add("knight");
+		//tree.Add("scam");
+		//tree.Add("blame");
+		//tree.Print();*/
 
 
 		clock_t duration = clock() - start;
@@ -73,7 +76,7 @@ int main(int argc, char* argv[]) {
 			}
 
 		}
-	}
+
 	int i;
 	cin >> i;
 }

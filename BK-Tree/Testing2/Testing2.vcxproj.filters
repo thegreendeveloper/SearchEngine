@@ -32,6 +32,12 @@
     <ClCompile Include="BKTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="JSONImporter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextImporter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HashEntry.h">
@@ -53,6 +59,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BKTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JSONImporter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextImporter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
