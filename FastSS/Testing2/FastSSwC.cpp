@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Utilities.h"
 
-FastSSwC::FastSSwC(unordered_map<string, unordered_map<string, string>> * map, int k)
+FastSSwC::FastSSwC(unordered_map<string, unordered_set<string>> * map, int k)
 {
 	this->map = map;
 	initialize(k);
@@ -17,7 +17,7 @@ void FastSSwC::initialize(int k) {
 	cout << "creating the inverted file of deletions.." << endl;
 	invertedSubStrings = new unordered_map<string, unordered_map<string, double>>();
 
-	for (unordered_map<string, unordered_map<string, string>>::iterator it = map->begin(); it != map->end(); it++) {
+	for (unordered_map<string, unordered_set<string>>::iterator it = map->begin(); it != map->end(); it++) {
 		unordered_set<string> substrings;
 		SubstringDeletionRecurse(k, it->first, &substrings);
 

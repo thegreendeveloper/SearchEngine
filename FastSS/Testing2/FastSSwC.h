@@ -6,7 +6,7 @@ using namespace std;
 
 class FastSSwC {
 public:
-	FastSSwC(unordered_map<string, unordered_map<string, string>> * map, int k);
+	FastSSwC(unordered_map<string, unordered_set<string>> * map, int k);
 	~FastSSwC();
 
 	void Search(string input);
@@ -17,7 +17,7 @@ private:
 
 	//HashMapHE * map;
 	//HashMapHE * invertedSubStrings;
-	unordered_map<string, unordered_map<string, string>> * map;
+	unordered_map<string, unordered_set<string>> * map;
 	unordered_map<string, unordered_map<string, double>> * invertedSubStrings;
 
 };
