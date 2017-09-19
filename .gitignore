@@ -1,11 +1,12 @@
-#ignore all files in datafiles directory
-DataFiles/
-SearchEngine/Debug/
-x64/
-.VS/
-*.vcxproj
-*.vcxproj
-*.user
-*.vcxproj
-SpellCheckers_unordered_map/Debug/
-SpellCheckers_unordered_map/SpellCheckers_unordered_map/Debug/
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!*.cpp
+!*.h
+# etc...
+
+# ...even if they are in subdirectories
+!*/
+
