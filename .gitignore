@@ -2,13 +2,10 @@
 DataFiles/
 SearchEngine/Debug/
 x64/
-Step 4/x64/
 .VS/
-Step 4/Testing2/Testing2.vcxproj
 *.vcxproj
 *.vcxproj
-Step 4/Testing2/Testing2.vcxproj.filters
 *.user
-Step 4/Testing2/Testing2.vcxproj
 *.vcxproj
-Step 4/Testing2/Testing2.vcxproj
+SpellCheckers_unordered_map/Debug/
+SpellCheckers_unordered_map/SpellCheckers_unordered_map/Debug/

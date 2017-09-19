@@ -23,15 +23,7 @@ void TrigramSimilarityMeasure::Search(string input) {
 	
 	vector<string> result;
 	Utilities::sort(result, resultSet);
-	int counter = 0;
-	cout << "Sugestions based on Trigram Similarity : " << endl;
-	for (vector<string>::reverse_iterator it = result.rbegin(); it != result.rend(); it++) {
-		cout << *it << endl;
-		if (counter > 10)
-			break;
-		counter++;
-	}
-	cout << endl;
+	Utilities::print(&result,10,true,"Sugestions based on Trigram Similarity : ");
 
 	delete resultSet;
 	delete inputTrigram;

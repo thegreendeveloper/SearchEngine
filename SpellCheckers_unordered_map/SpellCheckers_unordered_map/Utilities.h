@@ -13,6 +13,7 @@ class Utilities
 {
 public:
 	static void sort(vector<string> &resultSet, unordered_map<string, double> * entries);
+	static void print(vector<string> * resultSet, int noOfLines, bool reverse, string outputText);
 	static int LevenshteinDamerauDistance(string s, int n, string t, int m);
 	static int LevenshteinDistance(string s, int n, string t, int m);
 private:

@@ -174,3 +174,28 @@ int Utilities::LevenshteinDamerauDistance(string s, int n, string t, int m) {
 
 	return cost;
 }
+
+void Utilities::print(vector<string> * resultSet, int noOfLines, bool reverse, string outputText) {
+	int counter = 0;
+	cout << outputText << endl;
+
+	if (reverse) {
+		for (vector<string>::reverse_iterator it = resultSet->rbegin(); it != resultSet->rend(); it++) {
+			cout << *it << endl;
+			counter++;
+			if (counter > noOfLines)
+				break;
+		}
+	}
+	else {
+		cout << "Sugestions based on FastSSwC :" << endl;
+		for (vector<string>::iterator it = resultSet->begin(); it != resultSet->end(); it++) {
+			cout << *it << endl;
+			counter++;
+			if (counter > noOfLines)
+				break;
+		}	
+	}
+	cout << endl;
+
+}

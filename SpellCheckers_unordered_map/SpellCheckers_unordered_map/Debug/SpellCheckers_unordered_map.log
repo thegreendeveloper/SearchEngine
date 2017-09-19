@@ -1,14 +1,6 @@
 ﻿  TrigramSimilarityMeasure.cpp
-c:\users\tjoe\documents\github\searchengine\spellcheckers_unordered_map\spellcheckers_unordered_map\trigramsimilaritymeasure.cpp(93): warning C4018: '<': signed/unsigned mismatch
-c:\users\tjoe\documents\github\searchengine\spellcheckers_unordered_map\spellcheckers_unordered_map\trigramsimilaritymeasure.cpp(106): warning C4018: '>': signed/unsigned mismatch
-c:\users\tjoe\documents\github\searchengine\spellcheckers_unordered_map\spellcheckers_unordered_map\trigramsimilaritymeasure.cpp(115): warning C4018: '<=': signed/unsigned mismatch
-  FastSSwC.cpp
-c:\users\tjoe\documents\github\searchengine\spellcheckers_unordered_map\spellcheckers_unordered_map\fastsswc.cpp(74): warning C4018: '<': signed/unsigned mismatch
-c:\users\tjoe\documents\github\searchengine\spellcheckers_unordered_map\spellcheckers_unordered_map\fastsswc.cpp(75): warning C4018: '<': signed/unsigned mismatch
-c:\users\tjoe\documents\github\searchengine\spellcheckers_unordered_map\spellcheckers_unordered_map\fastsswc.cpp(77): warning C4018: '<': signed/unsigned mismatch
-c:\users\tjoe\documents\github\searchengine\spellcheckers_unordered_map\spellcheckers_unordered_map\fastsswc.cpp(81): warning C4018: '>=': signed/unsigned mismatch
-c:\users\tjoe\documents\github\searchengine\spellcheckers_unordered_map\spellcheckers_unordered_map\fastsswc.cpp(93): warning C4018: '<': signed/unsigned mismatch
-  BKTree.cpp
-  Generating Code...
+c:\users\tjoe\documents\github\searchengine\spellcheckers_unordered_map\spellcheckers_unordered_map\trigramsimilaritymeasure.cpp(85): warning C4018: '<': signed/unsigned mismatch
+c:\users\tjoe\documents\github\searchengine\spellcheckers_unordered_map\spellcheckers_unordered_map\trigramsimilaritymeasure.cpp(98): warning C4018: '>': signed/unsigned mismatch
+c:\users\tjoe\documents\github\searchengine\spellcheckers_unordered_map\spellcheckers_unordered_map\trigramsimilaritymeasure.cpp(107): warning C4018: '<=': signed/unsigned mismatch
   SpellCheckers_unordered_map.vcxproj -> C:\Users\tjoe\Documents\GitHub\SearchEngine\SpellCheckers_unordered_map\Debug\SpellCheckers_unordered_map.exe
   SpellCheckers_unordered_map.vcxproj -> C:\Users\tjoe\Documents\GitHub\SearchEngine\SpellCheckers_unordered_map\Debug\SpellCheckers_unordered_map.pdb (Partial PDB)

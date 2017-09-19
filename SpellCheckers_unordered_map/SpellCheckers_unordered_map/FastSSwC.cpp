@@ -62,10 +62,7 @@ void FastSSwC::Search(string input) {
 
 	vector<string> sortedList;
 	Utilities::sort(sortedList, &resultSet);
-	cout << "Sugestions based on FastSSwC :" << endl;
-	for (vector<string>::iterator it = sortedList.begin(); it != sortedList.end(); it++)
-		cout << *it << endl;
-	cout << endl;
+	Utilities::print(&sortedList, 10, false, "Sugestions based on FastSSwC : ");
 }
 
 
