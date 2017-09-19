@@ -57,12 +57,15 @@ void BKTree::Print() {
 		it->second->Print();
 }
 
-vector<pair<string,int>> * BKTree::Search(string searchString, int tolerance) {
+void BKTree::Search(string searchString, int tolerance) {
 	vector<pair<string, int>> * resultSet = new vector<pair<string, int>>();
 	
 	RecursiveSearch(searchString, tolerance, _root, resultSet);
 
- 	return resultSet;
+	cout << "Sugestions based on BKTree : " << endl;
+	for (vector<pair<string, int>>::iterator it = resultSet->begin(); it != resultSet->end(); it++)
+		cout << it->first << " Dist : " << it->second << endl;
+	cout << endl;
 }
 
 

@@ -21,16 +21,17 @@ void TrigramSimilarityMeasure::Search(string input) {
 	// Applying trigram similarity meassure
 	TrigramSimilarity(inputTrigram, dictionaryThreeGrams, resultSet);
 	
-	cout << "Did you mean?" << endl;
 	vector<string> result;
 	Utilities::sort(result, resultSet);
 	int counter = 0;
+	cout << "Sugestions based on Trigram Similarity : " << endl;
 	for (vector<string>::reverse_iterator it = result.rbegin(); it != result.rend(); it++) {
 		cout << *it << endl;
 		if (counter > 10)
 			break;
 		counter++;
 	}
+	cout << endl;
 
 	delete resultSet;
 	delete inputTrigram;

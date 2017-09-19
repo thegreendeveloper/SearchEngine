@@ -3,6 +3,7 @@
 #include "JSONImporter.h"
 #include "TrigramSimilarityMeasure.h"
 #include "BKTree.h"
+#include "FastSSwC.h"
 
 using namespace std;
 
@@ -15,22 +16,31 @@ int main(int argc, char* argv[]) {
 	JSONImporter import(input, &map);
 	cout << "JSON imp size : " << map.size() << endl;
 
+	/*Building the spellcheckers*/
 	/*TRIGRAMSIM*/
-	/*TrigramSimilarityMeasure trigram(&map);
-	trigram.Search("birgite");*/
+	TrigramSimilarityMeasure trigram(&map);
 	
-	/*BKTree*/
-	/*BKTree myTree;
-	for (pair<string, unordered_set<string>> element : map) {
-		myTree.Add(element.first);		
-	}
-
-	vector<pair<string, int>> * result = myTree.Search("birgite", 3);
-	for (vector<pair<string, int>>::iterator it = result->begin(); it != result->end(); it++) {
-		cout << it->first << " Dist : " << it->second << endl;
-	}*/
-
 	/*FastSSwC*/
+	FastSSwC ss(&map, 2);
+
+	/*BKTree*/
+	BKTree myTree;
+	for (pair<string, unordered_set<string>> element : map)
+		myTree.Add(element.first);		
+
+	/*search loop*/
+	while (true) {
+		cout << "input search string. type 'exit' to stop. type 'p' to print dictionary.\n";
+		string searchstring;
+		getline(cin, searchstring);
+
+		if (searchstring == "exit")
+			break;
+
+		trigram.Search(searchstring);
+		ss.Search(searchstring);
+		myTree.Search(searchstring,3);
+	}
 
 	int i;
 	cin >> i;

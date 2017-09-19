@@ -15,7 +15,7 @@ public:
 
 	void Add(string word);
 	void Print();
-	vector<pair<string, int>> * Search(string searchString, int tolerance);
+	void Search(string searchString, int tolerance);
 private:
 
 	struct Node {
