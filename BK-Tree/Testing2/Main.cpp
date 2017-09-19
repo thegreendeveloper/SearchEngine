@@ -10,8 +10,8 @@ int main(int argc, char* argv[]) {
 	string filename = argv[1], word, dt;
 
 	HashMapHE map(0);	
-	//JSONImporter import(filename, &map);
-	TextImporter import(filename, &map);
+	JSONImporter import(filename, &map);
+	//TextImporter import(filename, &map);
 	cout << "json imp size : " << map.NO_OF_ENTRIES << endl;
 
 
