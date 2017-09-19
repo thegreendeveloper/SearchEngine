@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <codecvt>
 
-TextImporter::TextImporter(string fileName, HashMapHE * map)
+TextImporter::TextImporter(string fileName, unordered_map<string, unordered_map<string, string>> * map)
 {
 	ImportTextFile(fileName, map);
 }
@@ -17,7 +17,7 @@ TextImporter::~TextImporter()
 }
 
 
-void TextImporter::ImportTextFile(string fileName, HashMapHE * map) {
+void TextImporter::ImportTextFile(string fileName, unordered_map<string, unordered_map<string, string>> * map) {
 	clock_t start = clock();
 	FILE * file = NULL;
 
@@ -55,8 +55,7 @@ void TextImporter::ImportTextFile(string fileName, HashMapHE * map) {
 			if (currentL.substr(0, 4) == "<div") {
 				//The last converted line was the title. We save the words in connection to the title. 
 				for (vector<string>::iterator it = localString.begin(); it != localString.end(); it++)
-					//insertWord(*it, previousLine, map);
-					map->put(*it, previousLine);
+					insertWord(*it, previousLine, map);
 
 				localString.clear();
 				//Skip tree lines 
@@ -67,7 +66,7 @@ void TextImporter::ImportTextFile(string fileName, HashMapHE * map) {
 			transform(currentL.begin(), currentL.end(), currentL.begin(), ::tolower);
 
 			////We start importing the words
-			localString.push_back(currentL);
+			//localString.push_back(currentL);
 
 			///*Breakdown converted line and insert each word in into the map */
 			istringstream iss(currentL);
@@ -105,4 +104,21 @@ int TextImporter::getLineCount(string fileName) {
 		myfile.close();
 	}
 	return counter;
+}
+
+void TextImporter::insertWord(string word, string document, unordered_map<string, unordered_map<string, string>> * map) {
+	auto iter = map->find(word);
+	if (iter == map->end()) {
+		unordered_map<string, string> documents;
+		documents.insert(make_pair(document, document));
+		map->insert(make_pair(word, documents));
+	}
+	else {
+		auto iter = map->at(word).find(document);
+		if (iter == map->at(word).end()) {
+			map->at(word).insert(make_pair(document, document));
+		}
+
+	}
+
 }

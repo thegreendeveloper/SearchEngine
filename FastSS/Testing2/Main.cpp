@@ -1,47 +1,42 @@
-#include "HashEntry.h"
-#include "HashMapHE.h"
-#include "Utilities.h"
-#include "FastSS.h"
+#include "FastSSwC.h"
 #include "JSONImporter.h"
 #include "TextImporter.h"
+#include <unordered_map>
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
+
 	string filename = argv[1], word, dt;
 
-	HashMapHE map(0);	
-	
+	unordered_map<string, unordered_map<string, string>> map;
+
 	JSONImporter import(filename, &map);
 
-		clock_t start = clock();
-		FastSS ss(&map, 2);
-		clock_t duration = clock() - start;
-		cout << endl;
-		cout << "Duration building the suffix inverted file : " << duration / CLOCKS_PER_SEC << "\n";
-		
-		cout << "calculating average length" << endl;
-		double avg = 0;
-		for (int i = 0; i < map.getTableSize(); i++) {
-			if (map.getTable()[i] != NULL)
-				avg += map.getTable()[i]->getKey().length();
-		}
-		cout << "average str size : " << avg / map.NO_OF_ENTRIES << endl;
+	clock_t start = clock();
+	FastSSwC ss(&map, 2);
 
-		while (true) {
-			cout << "input search string. type 'exit' to stop. type 'p' to print dictionary.\n";
-			string searchstring;
-			getline(cin, searchstring);
+	clock_t duration = clock() - start;
+	cout << endl;
+	cout << "Duration building deletion map " << duration / CLOCKS_PER_SEC << "\n";
 
-			if (searchstring == "exit")
-				break;
-			if (searchstring == "p") {
-				map.print();
-				continue;
-			}
+	cout << "calculating average length" << endl;
+	double avg = 0;
+	for(unordered_map<string, unordered_map<string, string>>::iterator it = map.begin(); it != map.end(); it++)
+		avg += it->first.length();
 
-			ss.Search(searchstring);
-		}
+	cout << "average str size : " << avg / map.size() << endl;
+
+	while (true) {
+		cout << "input search string. type 'exit' to stop. type 'p' to print dictionary.\n";
+		string searchstring;
+		getline(cin, searchstring);
+
+		if (searchstring == "exit")
+			break;
+
+		ss.Search(searchstring);
+	}
 
 	int i;
 	cin >> i;

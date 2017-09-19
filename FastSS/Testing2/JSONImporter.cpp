@@ -5,7 +5,7 @@
 #include <codecvt>
 
 
-JSONImporter::JSONImporter(string filePath, HashMapHE * map)
+JSONImporter::JSONImporter(string filePath, unordered_map<string, unordered_map<string, string>> * map)
 {
 	readJSONFile(filePath,map);
 }
@@ -88,6 +88,22 @@ wstring JSONImporter::utf8_to_utf16(const string& utf8)
 	return utf16;
 }
 
+void JSONImporter::insertWord(string word, string document, unordered_map<string, unordered_map<string, string>> * map) {
+	auto iter = map->find(word);
+	if (iter == map->end()) {
+		unordered_map<string, string> documents;
+		documents.insert(make_pair(document, document));
+		map->insert(make_pair(word, documents));
+	}
+	else {
+		auto iter = map->at(word).find(document);
+		if (iter == map->at(word).end()) {
+			map->at(word).insert(make_pair(document, document));
+		}
+
+	}
+
+}
 
 string JSONImporter::encodeString(string line) {
 	wstring encoded = utf8_to_utf16(line);
@@ -99,7 +115,7 @@ string JSONImporter::encodeString(string line) {
 }
 
 
-void JSONImporter::readJSONFile(string filePath, HashMapHE * map) {
+void JSONImporter::readJSONFile(string filePath, unordered_map<string, unordered_map<string, string>> * map) {
 	ifstream i(filePath);
 
 	json file, documents;
@@ -119,7 +135,7 @@ void JSONImporter::readJSONFile(string filePath, HashMapHE * map) {
 			if (currentLine.substr(0, 4) == "<div") {
 				//The last converted line was the title. We save the words in connection to the title. 
 				for (vector<string>::iterator it = localString.begin(); it != localString.end(); it++)
-					map->put(*it, converted);
+					insertWord(*it, converted, map);
 
 				localString.clear();
 				break;
