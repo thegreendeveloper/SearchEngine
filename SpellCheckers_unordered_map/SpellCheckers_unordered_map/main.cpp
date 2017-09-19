@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
 	string input = argv[1];
 	cout << input << endl;
 
-	unordered_map<string, unordered_map<string, string>> map;
+	unordered_map<string, unordered_set<string>> map;
 	JSONImporter import(input, &map);
 	cout << "JSON imp size : " << map.size() << endl;
 
@@ -21,15 +21,16 @@ int main(int argc, char* argv[]) {
 	
 	/*BKTree*/
 	/*BKTree myTree;
-	for (pair<string, unordered_map<string, string>> element : map) {
+	for (pair<string, unordered_set<string>> element : map) {
 		myTree.Add(element.first);		
 	}
+
 	vector<pair<string, int>> * result = myTree.Search("birgite", 3);
 	for (vector<pair<string, int>>::iterator it = result->begin(); it != result->end(); it++) {
 		cout << it->first << " Dist : " << it->second << endl;
 	}*/
 
-	/*FastSS*/
+	/*FastSSwC*/
 
 	int i;
 	cin >> i;

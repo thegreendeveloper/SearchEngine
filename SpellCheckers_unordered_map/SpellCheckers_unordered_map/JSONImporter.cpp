@@ -5,7 +5,7 @@
 #include <codecvt>
 
 
-JSONImporter::JSONImporter(string filePath, unordered_map<string, unordered_map<string, string>> * map)
+JSONImporter::JSONImporter(string filePath, unordered_map<string, unordered_set<string>> * map)
 {
 	readJSONFile(filePath,map);
 }
@@ -88,17 +88,17 @@ wstring JSONImporter::utf8_to_utf16(const string& utf8)
 	return utf16;
 }
 
-void JSONImporter::insertWord(string word, string document, unordered_map<string, unordered_map<string, string>> * map) {
+void JSONImporter::insertWord(string word, string document, unordered_map<string, unordered_set<string>> * map) {
 	auto iter = map->find(word);
 	if (iter == map->end()) {
-		unordered_map<string, string> documents;
-		documents.insert(make_pair(document, document));
+		unordered_set<string> documents;
+		documents.insert(document);
 		map->insert(make_pair(word, documents));
 	}
 	else {
 		auto iter = map->at(word).find(document);
 		if (iter == map->at(word).end()) {
-			map->at(word).insert(make_pair(document, document));
+			map->at(word).insert(document);
 		}
 
 	}
@@ -115,7 +115,7 @@ string JSONImporter::encodeString(string line) {
 }
 
 
-void JSONImporter::readJSONFile(string filePath, unordered_map<string, unordered_map<string, string>> * map) {
+void JSONImporter::readJSONFile(string filePath, unordered_map<string, unordered_set<string>> * map) {
 	ifstream i(filePath);
 
 	json file, documents;

@@ -1,7 +1,7 @@
 #include "TrigramSimilarityMeasure.h"
 #include "Utilities.h"
 
-TrigramSimilarityMeasure::TrigramSimilarityMeasure(unordered_map<string, unordered_map<string, string>> * map)
+TrigramSimilarityMeasure::TrigramSimilarityMeasure(unordered_map<string, unordered_set<string>> * map)
 {
 	this->map = map;
 	cout << "Creating Three Gramm inverted file of entire dictionary (preprossesing)..." << endl;
@@ -37,7 +37,7 @@ void TrigramSimilarityMeasure::Search(string input) {
 }
 
 void TrigramSimilarityMeasure::TrigramSimilarity(vector<string> * inputTrigram, 
-	unordered_map<string, unordered_map<string, string>> * invertedTrigram, unordered_map<string, double> * resultSet)
+	unordered_map<string, unordered_set<string>> * invertedTrigram, unordered_map<string, double> * resultSet)
 {
 	for (vector<string>::iterator it = inputTrigram->begin(); it != inputTrigram->end(); it++) {
 		auto trigramIter = invertedTrigram->find(*it);
@@ -46,12 +46,12 @@ void TrigramSimilarityMeasure::TrigramSimilarity(vector<string> * inputTrigram,
 		we want to add it to our hashmapve and increment the counter*/
 		if (trigramIter != invertedTrigram->end()) {
 			
-			for (pair<string, string> element : trigramIter->second) {
-				auto wordIter = resultSet->find(element.first);
+			for (string element : trigramIter->second) {
+				auto wordIter = resultSet->find(element);
 				if (wordIter != resultSet->end()) {
 					wordIter->second++;
 				}else
-					resultSet->insert(make_pair(element.first,1));
+					resultSet->insert(make_pair(element,1));
 			}
 		}
 	}
@@ -63,10 +63,10 @@ void TrigramSimilarityMeasure::TrigramSimilarity(vector<string> * inputTrigram,
 }
 
 
-unordered_map<string, unordered_map<string, string>>  * TrigramSimilarityMeasure::CreateThreeGramInverted() {
-	unordered_map<string, unordered_map<string, string>> * ngramsDataSet = new unordered_map<string, unordered_map<string, string>>(0);
+unordered_map<string, unordered_set<string>>  * TrigramSimilarityMeasure::CreateThreeGramInverted() {
+		unordered_map<string, unordered_set<string>> * ngramsDataSet = new unordered_map<string, unordered_set<string>>();
 
-	for (unordered_map<string, unordered_map<string, string>>::iterator it = map->begin(); it != map->end();it++) {
+	for (unordered_map<string, unordered_set<string>>::iterator it = map->begin(); it != map->end();it++) {
 		vector<string> * threeGramsWord = new vector<string>();
 		//Split string into n-grams 
 		NGramSplit(3, it->first, threeGramsWord);
@@ -117,17 +117,17 @@ void TrigramSimilarityMeasure::NGramSplit(int ngram, string word, vector<string>
 }
 
 
-void TrigramSimilarityMeasure::insertWord(string word, string document, unordered_map<string, unordered_map<string, string>> * map) {
+void TrigramSimilarityMeasure::insertWord(string word, string document, unordered_map<string, unordered_set<string>> * map) {
 	auto iter = map->find(word);
 	if (iter == map->end()) {
-		unordered_map<string, string> documents;
-		documents.insert(make_pair(document, document));
+		unordered_set<string> documents;
+		documents.insert(document);
 		map->insert(make_pair(word, documents));
 	}
 	else {
 		auto iter = map->at(word).find(document);
 		if (iter == map->at(word).end()) {
-			map->at(word).insert(make_pair(document, document));
+			map->at(word).insert(document);
 		}
 
 	}
