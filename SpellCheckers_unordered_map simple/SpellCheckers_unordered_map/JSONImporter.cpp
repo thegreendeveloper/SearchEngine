@@ -1,26 +1,15 @@
 #include "JSONImporter.h"
-#include "rapidjson\filereadstream.h"
-#include "rapidjson\istreamwrapper.h"
-#include "rapidjson\document.h"
+#include <sstream>
 #include <cstdio>
 #include <fstream>
 #include <locale>
 #include <codecvt>
 #include <queue>
+#include "rapidjson\filereadstream.h"
+#include "rapidjson\document.h"
+#include "rapidjson\istreamwrapper.h"
 
 using namespace rapidjson;
-
-JSONImporter::JSONImporter(string filePath, unordered_set<string> * map)
-{
-	//readJSONFile(filePath, map);
-	readJSONFileRapid(filePath, map);
-}
-
-
-JSONImporter::~JSONImporter()
-{
-}
-
 
 wstring JSONImporter::utf8_to_utf16(const string& utf8)
 {
@@ -94,6 +83,22 @@ wstring JSONImporter::utf8_to_utf16(const string& utf8)
 	return utf16;
 }
 
+void JSONImporter::insertWord(string word, string document, unordered_map<string, unordered_set<string>> * map) {
+	auto iter = map->find(word);
+	if (iter == map->end()) {
+		unordered_set<string> documents;
+		documents.insert(document);
+		map->insert(make_pair(word, documents));
+	}
+	else {
+		auto iter = map->at(word).find(document);
+		if (iter == map->at(word).end()) {
+			map->at(word).insert(document);
+		}
+
+	}
+
+}
 
 string JSONImporter::encodeString(string line) {
 	wstring encoded = utf8_to_utf16(line);
@@ -113,22 +118,21 @@ void JSONImporter::readJSONFileRapid(string filePath, unordered_set<string> * ma
 	document.ParseStream<0, UTF8<>, FileReadStream>(is);
 	fclose(fp);
 
+	cout << "JSON file buffered... " << endl;
 	string previousLine, word;
-	queue<string> documentQueue;
-
+	
 	const Value& audios = document["response"]["docs"];
 	assert(audios.IsArray());
 
-
 	for (Value::ConstValueIterator itr = audios.Begin(); itr != audios.End(); ++itr) {
 		const Value& metadata = (*itr)["spell"];
-		assert(metadata.IsArray());	
+		assert(metadata.IsArray());
 
-		for (int i = 0; i < metadata.Size();i++) {
+		for (int i = 0; i < metadata.Size(); i++) {
 			string currentLine = metadata[i].GetString();
 
 			if (currentLine.substr(0, 4) == "<div") {
-				//map->insert(encodeString(previousLine)); Insert title 
+				map->insert(previousLine);
 				break;
 			}
 			if (currentLine == "")
@@ -137,10 +141,18 @@ void JSONImporter::readJSONFileRapid(string filePath, unordered_set<string> * ma
 			/*Breakdown converted line and insert each word in into the map */
 			istringstream iss(currentLine);
 			while (iss >> word) {
-				map->insert(encodeString(word));
+				if (word != "" && word.length() != 1 && !is_digits(word))
+					map->insert(encodeString(word));
 			}
 			previousLine = currentLine;
-
 		}
 	}
+}
+string JSONImporter::cleanString(string input) {
+	return input;
+}
+
+bool JSONImporter::is_digits(string &str)
+{
+	return str.find_first_not_of("0123456789") == std::string::npos;
 }
