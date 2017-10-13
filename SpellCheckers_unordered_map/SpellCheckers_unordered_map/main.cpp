@@ -17,30 +17,31 @@ int main(int argc, char* argv[]) {
 	cout << "JSON imp size : " << map.size() << endl;
 
 	/*Building the spellcheckers*/
+
 	/*TRIGRAMSIM*/
 	TrigramSimilarityMeasure trigram(&map);
 	
-	/*FastSSwC*/
-	FastSSwC ss(&map, 2);
+	///*FastSSwC*/
+	//FastSSwC ss(&map, 2);
 
-	/*BKTree*/
-	BKTree myTree;
-	for (pair<string, unordered_set<string>> element : map)
-		myTree.Add(element.first);		
+	///*BKTree*/
+	//BKTree myTree;
+	//for (pair<string, unordered_set<string>> element : map)
+	//	myTree.Add(element.first);		
 
-	/*search loop*/
-	while (true) {
-		cout << "input search string. type 'exit' to stop. type 'p' to print dictionary.\n";
-		string searchstring;
-		getline(cin, searchstring);
+	///*search loop*/
+	//while (true) {
+	//	cout << "input search string. type 'exit' to stop. type 'p' to print dictionary.\n";
+	//	string searchstring;
+	//	getline(cin, searchstring);
 
-		if (searchstring == "exit")
-			break;
+	//	if (searchstring == "exit")
+	//		break;
 
-		trigram.Search(searchstring);
-		ss.Search(searchstring);
-		myTree.Search(searchstring,3);
-	}
+	//	trigram.Search(searchstring);
+	//	ss.Search(searchstring);
+	//	myTree.Search(searchstring,3);
+	//}
 
 	int i;
 	cin >> i;

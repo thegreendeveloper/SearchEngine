@@ -1,6 +1,7 @@
-﻿  TrigramSimilarityMeasure.cpp
-c:\users\tjoe\documents\github\searchengine\spellcheckers_unordered_map\spellcheckers_unordered_map\trigramsimilaritymeasure.cpp(85): warning C4018: '<': signed/unsigned mismatch
-c:\users\tjoe\documents\github\searchengine\spellcheckers_unordered_map\spellcheckers_unordered_map\trigramsimilaritymeasure.cpp(98): warning C4018: '>': signed/unsigned mismatch
-c:\users\tjoe\documents\github\searchengine\spellcheckers_unordered_map\spellcheckers_unordered_map\trigramsimilaritymeasure.cpp(107): warning C4018: '<=': signed/unsigned mismatch
+﻿  main.cpp
+  JSONImporter.cpp
+c:\users\tjoe\documents\github\searchengine\spellcheckers_unordered_map\spellcheckers_unordered_map\jsonimporter.cpp(191): warning C4018: '<': signed/unsigned mismatch
+c:\users\tjoe\documents\github\searchengine\spellcheckers_unordered_map\spellcheckers_unordered_map\jsonimporter.cpp(209): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
   SpellCheckers_unordered_map.vcxproj -> C:\Users\tjoe\Documents\GitHub\SearchEngine\SpellCheckers_unordered_map\Debug\SpellCheckers_unordered_map.exe
   SpellCheckers_unordered_map.vcxproj -> C:\Users\tjoe\Documents\GitHub\SearchEngine\SpellCheckers_unordered_map\Debug\SpellCheckers_unordered_map.pdb (Partial PDB)
