@@ -1,4 +1,6 @@
-#pragma once
+#ifndef BKTREE_H
+#define BKTREE_H
+
 #include <vector>
 #include <string>
 #include <unordered_map>
@@ -46,4 +48,4 @@ private:
 	void AddChildNode(Node * current, string word);
 	void RecursiveSearch(string searchString, int tolerance, Node * current, unordered_map<string, double> * resultSet);
 };
-
+#endif
