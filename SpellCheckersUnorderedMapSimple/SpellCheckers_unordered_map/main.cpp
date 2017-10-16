@@ -52,7 +52,11 @@ int main(int argc, char* argv[]) {
 	/*BKTree*/
 	BKTree myTree;
 	int counter = 0;
-	for (string element : map) {
+
+	for (auto it = map.begin(); it != map.end(); ++it)
+	{
+		string element = *it;
+	//for (string element : map) {
 		counter++;
 		myTree.Add(element);		
 
