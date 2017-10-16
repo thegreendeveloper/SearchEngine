@@ -17,8 +17,8 @@ public:
 	static int LevenshteinDamerauDistance(string s, int n, string t, int m);
 	static int LevenshteinDistance(string s, int n, string t, int m);
 private:
-	static int getMaximumValue(int arr[], int NoOfEntries);
-	static void countSort(int arrOcc[], string arrKey[], int n, int exp);
+	static int getMaximumValue(unsigned long long arr[], int NoOfEntries);
+	static void countSort(unsigned long long arrOcc[], string arrKey[], int n, int exp);
 
 };
 

@@ -5,7 +5,7 @@ void Utilities::sort(vector<string> &resultSet, unordered_map<string, double> * 
 {
 	/*Initializing*/
 	int arrSize = entries->size();
-	int* arrOcc = new int[arrSize];
+	unsigned long long* arrOcc = new unsigned long long[arrSize];
 	string* arrKey = new string[arrSize];
 
 	for (int i = 0; i < arrSize; i++) {
@@ -35,7 +35,7 @@ void Utilities::sort(vector<string> &resultSet, unordered_map<string, double> * 
 }
 
 
-void Utilities::countSort(int arrOcc[], string arrKey[], int n, int exp)
+void Utilities::countSort(unsigned long long arrOcc[], string arrKey[], int n, int exp)
 {
 	string* outputKey = new string[n];
 	int* output = new int[n];
@@ -76,7 +76,7 @@ void Utilities::countSort(int arrOcc[], string arrKey[], int n, int exp)
 
 }
 
-int Utilities::getMaximumValue(int arr[], int NoOfEntries) {
+int Utilities::getMaximumValue(unsigned long long arr[], int NoOfEntries) {
 	int maxValue = arr[0];
 	for (int i = 1; i < NoOfEntries; i++) {
 		if (maxValue < arr[i])
