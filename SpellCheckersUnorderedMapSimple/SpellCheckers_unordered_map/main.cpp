@@ -14,9 +14,8 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
 
-	//string input = argv[1];
-	//cout << input << endl;
-
+	string path = argv[1];
+	
 	unordered_set<string> map;
 	//string input = "C:/Users/tjoe/Dropbox/DTUMaster/5/Thesis/datafiles/FULLSPELL0";
 	//JSONImporter json;
@@ -28,8 +27,7 @@ int main(int argc, char* argv[]) {
 	//	cout << "Time : " << elapsed_secs << endl;
 
 	//}
-	string input = "C:/Users/tjoe/Dropbox/DTUMaster/5/Thesis/datafiles/FinalNotaThird.txt";
-	ifstream myfile(input);
+	ifstream myfile(path + "FinalNotaThird.txt");
 	string line;
 	if (myfile.is_open())
 	{
@@ -80,8 +78,8 @@ int main(int argc, char* argv[]) {
 	//}
 
 	//Reading search file and querying spellchecker
-	ifstream file("C:/Users/tjoe/Dropbox/DTUMaster/5/Thesis/datafiles/testData/TestDataPopular.txt");
-	ofstream outfile("C:/Users/tjoe/Dropbox/DTUMaster/5/Thesis/datafiles/testData/BKTreeResult.txt");
+	ifstream file(path+"testData/TestDataPopular.txt");
+	ofstream outfile(path+"testData/BKTreeResult.txt");
 	string word;
 	clock_t begin, end;
 	double elapsed_secs;
