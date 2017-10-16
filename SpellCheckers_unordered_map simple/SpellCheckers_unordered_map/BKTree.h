@@ -15,7 +15,7 @@ public:
 
 	void Add(string word);
 	void Print();
-	void Search(string searchString, int tolerance);
+	vector<string> Search(string searchString, int tolerance);
 private:
 
 	struct Node {

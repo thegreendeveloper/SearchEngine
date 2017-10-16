@@ -58,15 +58,21 @@ void BKTree::Print() {
 		it->second->Print();
 }
 
-void BKTree::Search(string searchString, int tolerance) {
+vector<string> BKTree::Search(string searchString, int tolerance) {
 	unordered_map<string, double> resultSet;
 
 	RecursiveSearch(searchString, tolerance, _root, &resultSet);
 	
-	vector<string> sortedList;
+	vector<string> sortedList, result;
 	Utilities::sort(sortedList, &resultSet);
-	Utilities::print(&sortedList, 10, false, "Sugestions based on BKTree : ");
-
+	//Utilities::print(&sortedList, 10, false, "Sugestions based on BKTree : ");
+	if (sortedList.size() > 10) {
+		for (int i = 0; i < 10; i++)
+			result.push_back(sortedList[i]);
+		return result;
+	}
+	
+	return sortedList;
 }
 
 
