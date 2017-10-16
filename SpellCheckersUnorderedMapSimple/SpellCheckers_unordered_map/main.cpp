@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
 	//	cout << "Time : " << elapsed_secs << endl;
 
 	//}
-	ifstream myfile(path + "FinalNotaThird.txt");
+	ifstream myfile(path + "FinalNotaDict.txt");
 	string line;
 	if (myfile.is_open())
 	{
