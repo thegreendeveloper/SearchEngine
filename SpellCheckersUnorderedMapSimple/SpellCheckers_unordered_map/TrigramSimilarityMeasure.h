@@ -13,7 +13,7 @@ public:
 	unordered_map<string, unordered_set<string>> * CreateThreeGramInverted();
 private:
 	void NGramSplit(int ngram, string word, vector<string> * stringVector);
-	void TrigramSimilarityMeasure::insertWord(string word, string document, unordered_map<string, unordered_set<string>> * map);
+	void insertWord(string word, string document, unordered_map<string, unordered_set<string>> * map);
 	void TrigramSimilarity(vector<string> * inputTrigram, unordered_map<string, unordered_set<string>> * invertedTrigram, unordered_map<string, double> * resultSet);
 
 	unordered_set<string> * map;//HashMapHE * map;
