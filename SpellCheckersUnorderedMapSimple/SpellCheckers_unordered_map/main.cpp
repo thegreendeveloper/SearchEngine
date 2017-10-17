@@ -12,22 +12,16 @@
 
 using namespace std;
 
+void insertTestData(vector<string> * testData, string filename);
+void printFile(string outputFName, vector<string> resultSet);
+
 int main(int argc, char* argv[]) {
 
 	string path = argv[1];
 	
 	unordered_set<string> map;
-	//string input = "C:/Users/tjoe/Dropbox/DTUMaster/5/Thesis/datafiles/FULLSPELL0";
-	//JSONImporter json;
-
-	//for (int i = 1; i < 4; i++) {
-	//	json.readJSONFileRapid(input+to_string(i)+".json", &myMap);
-	//	clock_t end = clock();
-	//	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-	//	cout << "Time : " << elapsed_secs << endl;
-
-	//}
-	ifstream myfile(path + "FinalNotaDict.txt");
+	
+	ifstream myfile(path + "FinalNotaThird.txt");
 	string line;
 	if (myfile.is_open())
 	{
@@ -63,56 +57,64 @@ int main(int argc, char* argv[]) {
 	}
 
 
-	/*search loop*/
-	//while (true) {
-	//	cout << "input search string. type 'exit' to stop. type 'p' to print dictionary.\n";
-	//	string searchstring;
-	//	getline(cin, searchstring);
-
-	//	if (searchstring == "exit")
-	//		break;
-
-	//	trigram.Search(searchstring);
-	//	//ss.Search(searchstring);
-	//	//myTree.Search(searchstring,3);
-	//}
-
 	//Reading search file and querying spellchecker
-	ifstream file(path+"testData/TestDataPopular.txt");
-	ofstream outfile(path+"testData/BKTreeResult.txt");
+	vector<string> testData;
+	vector<string> resultSet;
 	string word;
 	clock_t begin, end;
 	double elapsed_secs;
 
+	insertTestData(&testData, path + "testData/TestDataPopular.txt");
+	cout << "Read test data" << endl;
+
+	for (string value : testData) {
+		resultSet.push_back(value);
+		istringstream iss(value);
+		int counter = 0;
+		while (iss >> word) {
+			begin = clock();
+			vector<string> result = myTree.Search(word, 2);
+			end = clock();
+			elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+			resultSet.push_back("\t" + word + "\t" + to_string(elapsed_secs));
+			counter++;
+		}
+
+		if (counter > 1) {
+			begin = clock();
+			vector<string> result = myTree.Search(value, 2);
+			end = clock();
+			elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+			resultSet.push_back("\t" + value + "\t" + to_string(elapsed_secs));
+		}
+	}
+	
+	printFile(path+"testData/BKTreeResult.txt", resultSet);
+	cout << "Finished" << endl;
+	int i;
+	cin >> i;
+}
+
+void printFile(string outputFName, vector<string> resultSet) {
+	ofstream outfile(outputFName);
+
+	for (string line : resultSet) {
+		outfile << line << endl;
+	}
+	outfile.close();
+}
+
+void insertTestData(vector<string> * testData, string filename) {
+	ifstream file(filename);
+	
+	string line;
 	if (file.is_open())
 	{
 		while (getline(file, line))
 		{
 			string query = line.substr(0, line.find(","));
-			outfile << query << std::endl;
-
-			istringstream iss(query);
-			int counter = 0;
-			while (iss >> word) {
-				begin = clock();
-				vector<string> result = myTree.Search(word, 2);
-				end = clock();
-				elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-				outfile << "\t"<< word << "\t" << elapsed_secs << std::endl;
-				counter++;
-			}
-
-			if (counter > 1) {
-				begin = clock();
-				vector<string> result = myTree.Search(query, 2);
-				end = clock();
-				elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-				outfile << "\t" << query << "\t" << elapsed_secs << std::endl;			
-			}
+			testData->push_back(query);
 		}
 	}
-	outfile.close();
-	cout << "Finished" << endl;
-	int i;
-	cin >> i;
+	file.close();
 }
