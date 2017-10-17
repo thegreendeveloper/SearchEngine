@@ -10,23 +10,29 @@ TrigramSimilarityMeasure::TrigramSimilarityMeasure(unordered_set<string> * map)
 
 TrigramSimilarityMeasure::~TrigramSimilarityMeasure(){}
 
-void TrigramSimilarityMeasure::Search(string input) {
+vector<string> TrigramSimilarityMeasure::Search(string input) {
 	/*PostProcessing : breaking input intro threegrams, iterating over each three grams 
 	doing similarity scores for each of the dictionary words*/
 	vector<string> * inputTrigram = new vector<string>();
 	NGramSplit(3, input, inputTrigram);
 
-	unordered_map<string, double> * resultSet = new unordered_map<string, double>();
-
+	unordered_map<string, double> resultSet;
 	// Applying trigram similarity meassure
-	TrigramSimilarity(inputTrigram, dictionaryThreeGrams, resultSet);
+	TrigramSimilarity(inputTrigram, dictionaryThreeGrams, &resultSet);
 	
-	vector<string> result;
-	Utilities::sort(result, resultSet);
-	Utilities::print(&result,10,true,"Sugestions based on Trigram Similarity : ");
+	//vector<string> result;
+	//Utilities::sort(result, resultSet);
+	//Utilities::print(&result,10,true,"Sugestions based on Trigram Similarity : ");
 
-	delete resultSet;
-	delete inputTrigram;
+	vector<string> sortedList, result;
+	Utilities::sort(sortedList, &resultSet);
+	if (sortedList.size() > 10) {
+		for (int i = sortedList.size()-1; i >= 0; i--)
+			result.push_back(sortedList[i]);
+		return result;
+	}
+
+	return result;
 }
 
 void TrigramSimilarityMeasure::TrigramSimilarity(vector<string> * inputTrigram, 

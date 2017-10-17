@@ -9,7 +9,7 @@ public:
 	TrigramSimilarityMeasure(unordered_set<string> * map);
 	~TrigramSimilarityMeasure();
 
-	void Search(string input);
+	vector<string> Search(string input);
 	unordered_map<string, unordered_set<string>> * CreateThreeGramInverted();
 private:
 	void NGramSplit(int ngram, string word, vector<string> * stringVector);

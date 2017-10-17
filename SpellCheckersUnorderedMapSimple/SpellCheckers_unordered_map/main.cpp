@@ -71,12 +71,27 @@ int main(int argc, char* argv[]) {
 		resultSet.push_back(value);
 		istringstream iss(value);
 		int counter = 0;
+
 		while (iss >> word) {
+
+			if (map.find(word) != map.end()) {
+				resultSet.push_back("\t" + word + "\t" + word + "\t" + to_string(0));
+				continue;
+			}
+
 			begin = clock();
 			vector<string> result = myTree.Search(word, 2);
 			end = clock();
 			elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-			resultSet.push_back("\t" + word + "\t" + to_string(elapsed_secs));
+			if (result.size() > 0) {
+				string concat = "{";
+				for (string val : result) {
+					concat += val + ", ";
+				}
+				resultSet.push_back("\t" + word + "\t" + concat + "}\t" + to_string(elapsed_secs));
+			}
+			else
+				resultSet.push_back("\t" + word + "\t{}\t" + to_string(elapsed_secs));
 			counter++;
 		}
 
@@ -85,7 +100,15 @@ int main(int argc, char* argv[]) {
 			vector<string> result = myTree.Search(value, 2);
 			end = clock();
 			elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-			resultSet.push_back("\t" + value + "\t" + to_string(elapsed_secs));
+			if (result.size() > 0) {
+				string concat = "{";
+				for (string val : result) {
+					concat += val + ", ";
+				}
+				resultSet.push_back("\t" + value +"\t"+ concat+"}\t" + to_string(elapsed_secs));
+			}
+			else
+				resultSet.push_back("\t" + value + "\t{}\t" + to_string(elapsed_secs));
 		}
 	}
 	
