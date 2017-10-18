@@ -39,22 +39,22 @@ int main(int argc, char* argv[]) {
 	//TrigramSimilarityMeasure trigram(&map);
 	
 	/*FastSSwC*/
-	//FastSSwC ss(&map, 2);
+	FastSSwC ss(&map, 2);
 
-	/*BKTree*/
-	BKTree myTree;
-	int counter = 0;
+	/*BKTree*/ //WORKS
+	//BKTree myTree;
+	//int counter = 0;
 
-	for (auto it = map.begin(); it != map.end(); ++it)
-	{
-		string element = *it;
-	//for (string element : map) {
-		counter++;
-		myTree.Add(element);		
+	//for (auto it = map.begin(); it != map.end(); ++it)
+	//{
+	//	string element = *it;
+	////for (string element : map) {
+	//	counter++;
+	//	myTree.Add(element);		
 
-		if (counter % 10000 == 0)
-			cout << "counter : " << counter << endl;
-	}
+	//	if (counter % 10000 == 0)
+	//		cout << "counter : " << counter << endl;
+	//}
 
 
 	//Reading search file and querying spellchecker
@@ -73,14 +73,17 @@ int main(int argc, char* argv[]) {
 		int counter = 0;
 
 		while (iss >> word) {
-
+			counter++;
 			if (map.find(word) != map.end()) {
 				resultSet.push_back("\t" + word + "\t" + word + "\t" + to_string(0));
 				continue;
 			}
 
 			begin = clock();
-			vector<string> result = myTree.Search(word, 2);
+			//vector<string> result = myTree.Search(word, 2);
+			//vector<string> result = trigram.Search(word); //NEeds testing
+			vector<string> result = ss.Search(word);
+
 			end = clock();
 			elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 			if (result.size() > 0) {
@@ -90,14 +93,17 @@ int main(int argc, char* argv[]) {
 				}
 				resultSet.push_back("\t" + word + "\t" + concat + "}\t" + to_string(elapsed_secs));
 			}
-			else
+			else {
 				resultSet.push_back("\t" + word + "\t{}\t" + to_string(elapsed_secs));
-			counter++;
+			}
 		}
 
-		if (counter > 1) {
+		if (counter > 1) {			
 			begin = clock();
-			vector<string> result = myTree.Search(value, 2);
+			//vector<string> result = myTree.Search(value, 2);
+			//vector<string> result = trigram.Search(word); //NEeds testing
+			vector<string> result = ss.Search(value);
+
 			end = clock();
 			elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 			if (result.size() > 0) {
@@ -112,7 +118,10 @@ int main(int argc, char* argv[]) {
 		}
 	}
 	
-	printFile(path+"testData/BKTreeResult.txt", resultSet);
+	//printFile(path+"testData/BKTreeResultCPP.txt", resultSet);
+	//printFile(path+"testData/TrigramResultCPP.txt", resultSet);
+	printFile(path + "testData/FastSSResultCPP.txt", resultSet);
+
 	cout << "Finished" << endl;
 	int i;
 	cin >> i;

@@ -38,7 +38,7 @@ void FastSSwC::initialize(int k) {
 	cout << "invertedSubStrings entries : " << invertedSubStrings->size() << endl;
 }
 
-void FastSSwC::Search(string input) { 
+vector<string> FastSSwC::Search(string input) {
 	vector<string> deletionStrings;
 	SubstringDeletion(input, &deletionStrings);
 
@@ -58,9 +58,16 @@ void FastSSwC::Search(string input) {
 			it->second = Utilities::LevenshteinDistance(it->first, it->first.length(), input, input.length());
 	}
 
-	vector<string> sortedList;
+	vector<string> sortedList, result;
 	Utilities::sort(sortedList, &resultSet);
-	Utilities::print(&sortedList, 10, false, "Sugestions based on FastSSwC : ");
+	//Utilities::print(&sortedList, 10, false, "Sugestions based on FastSSwC : ");
+	if (sortedList.size() > 10) {
+		for (int i = 0; i < 10; i++)
+			result.push_back(sortedList[i]);
+		return result;
+	}
+
+	return sortedList;
 }
 
 

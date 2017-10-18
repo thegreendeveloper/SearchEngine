@@ -27,7 +27,7 @@ vector<string> TrigramSimilarityMeasure::Search(string input) {
 	vector<string> sortedList, result;
 	Utilities::sort(sortedList, &resultSet);
 	if (sortedList.size() > 10) {
-		for (int i = sortedList.size()-1; i >= 0; i--)
+		for (int i = sortedList.size()-1; i >= sortedList.size()-10; i--)
 			result.push_back(sortedList[i]);
 		return result;
 	}
